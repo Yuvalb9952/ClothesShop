@@ -10,7 +10,7 @@ namespace ClothesShop.Models
         [Key]
         public int Id { get; set; }
 
-        public Customer customer { get; set; }
+        public Customer Customer { get; set; }
 
         public OrderStatus Status { get; set; }
 
