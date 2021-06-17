@@ -8,7 +8,7 @@ namespace ClothesShop.Models
     {
         [Key]
         public int Id { get; set; }
-        public Category Category { get; set; }
+        public PrevCategory Category { get; set; } // TODO: Remove "Prev"
         public string Name { get; set; }
         public int Price { get; set; }
         public string ImageSrc { get; set; }
