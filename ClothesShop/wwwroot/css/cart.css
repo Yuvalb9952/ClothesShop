@@ -1,0 +1,64 @@
+﻿i {
+    cursor: pointer;
+}
+
+#cart-checkout-btn {
+    background-color: #252940;
+    color: white;
+    border: hidden;
+    transition: all 0.5s ease;
+}
+
+    #cart-checkout-btn:hover {
+        transform: translateX(15px);
+    }
+
+#cart-continue-btn {
+    background-color: #5B6F94;
+    color: white;
+    border: hidden;
+}
+
+table tr td {
+    border: 1px solid #FFFFFF;
+}
+
+table tr th {
+    background: #ae1315;
+    color: white;
+}
+
+.panel-shadow {
+    box-shadow: rgba(0, 0, 0, 0.3) 7px 7px 7px;
+}
+
+.cart-trash {
+    float: right;
+}
+
+.recommendation-form {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
+.recommendation-item {
+    width: 15rem;
+}
+
+.light-border {
+    border: 1px solid #0000001c;
+}
+
+#qantity {
+    margin-right: 10rem;
+}
+
+.add-to-cart-btn {
+    background: transparent !important;
+    border: transparent !important;
+}
+
+.fa-plus-circle {
+    font-size: xx-large !important;
+}

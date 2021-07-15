@@ -1,0 +1,91 @@
+﻿@{ List<Product> ProductsInBag = ViewBag.productsInBag;
+   Dictionary<int, int> Quantites = ViewBag.quantites;
+   List<Product> Recommendations = ViewBag.statistics; 
+   List<Size> ProductSizesList = ViewBag.productSizesList; 
+ }
+
+<div class="container view-container">
+    <div class="panel-body">
+        @if (ProductsInBag == null || ProductsInBag.Count == 0)
+         {
+            <h5>
+                Oh no, your cart is empty!
+            </h5> 
+         }
+         else
+         {
+             <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Qty</th>
+                        <th>Size</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ foreach (Product product in ProductsInBag)
+                       {
+                            <tr>
+                                <td><strong>@product.Name</strong></td>
+                                <td>@Quantites[product.Id]</td>
+                                <td>@product.Size</td>
+                                <td>@product.Price₪</td>
+                                <td>
+                                    @(Quantites[product.Id] * product.Price)₪<a asp-controller="Cart" asp-action="DeleteProduct" asp-route-id=@product.Id><i class="cart-trash fa fa-trash-o"></i></a>
+                                </td>
+                            </tr> 
+                       } 
+                     }
+                    <tr>
+                        <td colspan="4" class="text-right">Total</td>
+                        <td>@(ProductsInBag.Sum(p => p.Price * Quantites[p.Id]))₪</td>
+                    </tr>
+                </tbody>
+             </table>
+             <a asp-controller="Home" asp-action="Shop" id="cart-continue-btn" class="btn btn-primary" data-dismiss="modal">Continue Shopping</a>
+             <a asp-controller="Checkout" asp-action="Checkout" id="cart-checkout-btn" class="pull-right btn btn-success">
+                 Checkout
+                 <canvas id="canvas" width="10" height="10"></canvas>
+             </a>
+         }
+    </div>
+    <div class="view-container">
+        <h4>
+            Here are some fun items we think you would like:
+        </h4>
+        <div class="reco-container">
+            @{ foreach (Product product in Recommendations)
+               {
+                    <div class="grid-tile">
+                        <div class="item recommendation-item">
+                            <img class="item-img" src="@product.ImageSrc" asp-append-version="true" alt="@product.ImageSrc" />
+                            <div class="pnl-wrapper">
+                                <div class="pnl-description">
+                                    <span class="pnl-label">@product.Name</span>
+                                    <span class="pnl-category">@product.Category.Name</span>
+                                    <span class="pnl-price">@product.Price&#8362;</span>
+                                </div>
+                                @using (Html.BeginForm("AddRecommendationToCart", "Cart", FormMethod.Post))
+                                {
+                                    <input type="hidden" name="Id" value="@product.Id" id="id" />
+                                    <select class="light-border mr-2 mt-3" asp-for="@product.Size" name="size">
+                                        <option value="@Size.Small" selected>@Size.Small</option>
+                                        <option value="@Size.Medium">@Size.Medium</option>
+                                        <option value="@Size.Large">@Size.Large</option>
+                                    </select>
+                                    <div class="recommendation-form">
+                                        <input id="qantity" class="light-border" type="number" name="quantity" value=1 min="1" max="100">
+                                        <button type="submit" class="icon-button add-to-cart-btn"><i class="pnl-icon fa fa-plus-circle fa-lg"></i></button>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                    </div>     
+               } 
+             }
+        </div>
+    </div>
+</div>
