@@ -66,5 +66,64 @@ namespace final_project.Controllers
             ViewBag.CostumersView = costumerView;
             return View();
         }
+
+        public IActionResult Admins()
+        {
+            if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }
+            List<Admin> admins = _context.Admins.ToList();
+            ViewBag.Admins = admins;
+            ViewBag.SelfAdminId = HttpContext.Session.GetInt32("adminId");
+            return View();
+        }
+
+        public IActionResult RemoveAdmin(int id)
+        {
+            if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }
+            _context.Remove(_context.Admins.Single(b => b.Id == id));
+            _context.SaveChanges();
+            return Redirect("/Admin/Admins");
+        }
+
+        public IActionResult EditAdmin(int id, string userName, string email, string password)
+        {
+            if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }
+            Admin adminToEdit = _context.Admins.Single(b => b.Id == id);
+
+            adminToEdit.UserName = userName;
+            adminToEdit.Email = email;
+            adminToEdit.Password = password;
+
+            _context.Update(adminToEdit);
+            _context.SaveChanges();
+            return Redirect("/Admin/Admins");
+        }
+
+        public IActionResult AddAdmin(string userName, string email, string password)
+        {
+            if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }
+            Admin AdminToAdd = new Admin()
+            {
+                UserName = userName,
+                Email = email,
+                Password = password
+            };
+
+            _context.Add(AdminToAdd);
+            _context.SaveChanges();
+            return Redirect("/Admin/Admins");
+        }
+
     }
 }
