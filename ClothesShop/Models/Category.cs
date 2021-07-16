@@ -2,7 +2,7 @@
 
 namespace ClothesShop.Models
 {
-    public class PrevCategory
+    public class Category
     {
         [Key]
         public int Id { get; set; }

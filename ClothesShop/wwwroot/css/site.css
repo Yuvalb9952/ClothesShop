@@ -1,14 +1,21 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
+@import url("root.css");
+@import url("signin.css");
+@import url("shop.css");
+@import url("cart.css");
+@import url("notfound.css");
+@import url("checkout.css");
+@import url("orders.css");
 
-a.navbar-brand {
+/*a.navbar-brand {
   white-space: normal;
   text-align: center;
   word-break: break-all;
-}
+}*/
 
 /* Provide sufficient contrast against white background */
-a {
+/*a {
   color: #0366d6;
 }
 
@@ -22,11 +29,11 @@ a {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
-}
+}*/
 
 /* Sticky footer styles
 -------------------------------------------------- */
-html {
+/*html {
   font-size: 14px;
 }
 @media (min-width: 768px) {
@@ -49,23 +56,316 @@ html {
 button.accept-policy {
   font-size: 1rem;
   line-height: inherit;
-}
+}*/
 
 /* Sticky footer styles
 -------------------------------------------------- */
-html {
+/*html {
   position: relative;
   min-height: 100%;
 }
 
-body {
+body {*/
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
+  /*margin-bottom: 60px;
 }
 .footer {
   position: absolute;
   bottom: 0;
   width: 100%;
   white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+  line-height: 60px;*/ /* Vertically center the text there */
+/*}*/
+
+@font-face {
+    font-family: mySacramento;
+    src: url(../fonts/Sacramento-Regular.ttf);
 }
+
+@font-face {
+    font-family: myOswald;
+    src: url(../fonts/Oswald-ExtraLight.ttf);
+}
+
+body {
+    font-family: myOswald, sans-serif;
+    color: black;
+}
+
+footer {
+    background-color: var(--main-bg-color);
+    position: fixed;
+    width: 100vw;
+    bottom: 0;
+    color: white;
+    height: 50px;
+    z-index: 1;
+}
+
+#top-nav {
+    height: 35px;
+    padding: 6px;
+    background-color: var(--color-01);
+    color: var(--text-color);
+    font-size: 2vh;
+}
+
+.navbar-title {
+    margin-bottom: 0px;
+    color: white;
+}
+
+#site-header {
+    text-align: center;
+    overflow: hidden;
+    width: 100%;
+    color: antiquewhite;
+}
+
+.title {
+    font-size: 5em;
+    font-family: Impact, Charcoal, sans-serif;
+    text-shadow: 0.5px 0.5px 11px #909090;
+}
+
+.main-text {
+    margin-top: 40vh;
+    transform: translate(0, -50%);
+}
+
+.cart-section {
+    transition: all 1s ease;
+}
+
+.layout-footer {
+    margin: 0px;
+    padding-top: 10px;
+}
+
+.cart-section:hover {
+    transform: rotate(1080deg);
+}
+
+.table-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.view-container {
+    padding: 40px;
+    min-width: 700px;
+}
+
+a {
+}
+
+nav {
+    background-color: var(--main-bg-color);
+    height: 75px;
+}
+
+.navbar-center {
+    position: absolute;
+    left: 50vw;
+    transform: translate(-50%);
+}
+
+.nav-link {
+    color: red !important;
+    z-index: 1;
+}
+
+.navbar-brand {
+    color: red !important;
+}
+
+#index-button {
+    background-color: var(--sub-bg-color);
+    color: white;
+    border: 1px solid var(--sub-bg-color);
+    border-radius: 5px;
+    height: 50px;
+    width: 160px;
+    transition: all 0.3s ease;
+}
+
+    #index-button:hover {
+        background-color: var(--main-bg-color);
+        -webkit-transform: scale(1.2);
+        -ms-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#map {
+    position: relative;
+    width: 600px;
+    height: 300px;
+    z-index: 0;
+}
+
+#site-img {
+    padding: 120px 0 0px var(--left-padding);
+    background-image: url(../images/welcome.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 600px;
+}
+
+.content {
+    min-width: 700px;
+    padding: 50px;
+}
+
+.horizontal {
+    display: flex;
+}
+
+.edit-form {
+    padding: 10px;
+}
+
+    .edit-form input {
+        margin: 2px;
+    }
+
+.icon-button {
+    border: none;
+    background-color: transparent;
+}
+
+/***
+About
+****/
+.column {
+    -webkit-column-count: 3; /* Old Chrome, Safari and Opera */
+    -moz-column-count: 3; /* Old Firefox */
+    column-count: 3;
+}
+
+.service-item {
+    text-align: center;
+}
+
+    .service-item .icon {
+        border: 1px #b3b3b3 solid;
+        margin: 0 auto;
+        border-radius: 100%;
+        width: 110px;
+        height: 110px;
+        display: block;
+        margin-bottom: 60px;
+    }
+
+        .service-item .icon i {
+            line-height: 110px;
+            font-size: 45px;
+            color: var(--sub-bg-color);
+        }
+
+        .service-item .icon:hover {
+            background-color: var(--main-bg-color);
+            border-color: var(--sub-bg-color);
+        }
+
+            .service-item .icon:hover i {
+                color: #fff;
+            }
+
+    .service-item h3 {
+        margin-bottom: 25px;
+    }
+
+    .service-item .icon .icon-pen {
+        background: url('img/icon/pen.png');
+    }
+
+/* Share Button */
+
+#fb-share-button {
+    background: #3b5998;
+    border-radius: 3px;
+    font-weight: 600;
+    padding: 5px 8px;
+    display: inline-block;
+    position: static;
+    float: right;
+    margin-right: 10px;
+    white-space: nowrap;
+}
+
+    #fb-share-button:hover {
+        cursor: pointer;
+        background: #213A6F
+    }
+
+    #fb-share-button svg {
+        width: 16px;
+        fill: white;
+        vertical-align: middle;
+        border-radius: 2px
+    }
+
+    #fb-share-button span {
+        vertical-align: middle;
+        color: white;
+        font-size: 16px;
+        padding: 0 3px
+    }
+
+/*VIDEO*/
+.video-header {
+    position: relative;
+    background-color: black;
+    height: calc(100vh - 125px);
+    min-height: 25rem;
+    width: 100%;
+    overflow: hidden;
+}
+
+    .video-header video {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        z-index: 0;
+        -ms-transform: translateX(-50%) translateY(-50%);
+        -moz-transform: translateX(-50%) translateY(-50%);
+        -webkit-transform: translateX(-50%) translateY(-50%);
+        transform: translateX(-50%) translateY(-50%);
+    }
+
+    .video-header .container {
+        position: relative;
+        z-index: 2;
+    }
+
+    .video-header .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: black;
+        opacity: 0.5;
+        z-index: -1;
+    }
+
+@media (pointer: coarse) and (hover: none) {
+    .video-header {
+        background: url('https://source.unsplash.com/XT5OInaElMw/1600x900') black no-repeat center center scroll;
+    }
+
+        .video-header video {
+            display: none;
+        }
+}
+
+/*END VIDEO*/

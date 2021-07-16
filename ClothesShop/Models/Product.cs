@@ -8,13 +8,14 @@ namespace ClothesShop.Models
     {
         [Key]
         public int Id { get; set; }
-        public PrevCategory Category { get; set; } // TODO: Remove "Prev"
+        public Category Category { get; set; }
         public string Name { get; set; }
         public int Price { get; set; }
+        public Size Size { get; set; }
+        public Gender Gender { get; set; }
         public string ImageSrc { get; set; }
         public bool IsDeleted { get; set; }
 
-        // TODO: Not sure why it's here, if we're not using it delete
         public int CompareTo(Product other)
         {
             return this.Id.CompareTo(other.Id);
