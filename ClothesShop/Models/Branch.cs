@@ -2,7 +2,7 @@
 
 namespace ClothesShop.Models
 {
-    public class PrevBranch
+    public class Branch
     {
         [Key]
         public int ID { get; set; }
