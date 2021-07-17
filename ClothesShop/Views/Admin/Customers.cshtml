@@ -1,9 +1,9 @@
 ﻿@{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    var costumersView = ViewBag.CostumersView;
+    var customersView = ViewBag.CustomersView;
 }
 
-<h2>Costumers</h2>
+<h2>Customers</h2>
 
 <table class="table">
     <thead>
@@ -14,12 +14,12 @@
         </tr>
     </thead>
     <tbody>
-        @{ foreach (var costumer in costumersView)
+        @{ foreach (var customer in customersView)
             {
                 <tr>
-                    <td>@costumer.FullName</td>
-                    <td>@costumer.Email</td>
-                    <td>@costumer.OrdersNumber</td>
+                    <td>@customer.FullName</td>
+                    <td>@customer.Email</td>
+                    <td>@customer.OrdersNumber</td>
                 </tr>
             }
         }
