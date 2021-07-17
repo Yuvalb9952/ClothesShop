@@ -1,0 +1,41 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    List<Category> categories = ViewBag.Categories;
+}
+
+<h2>Categories</h2>
+
+@{ if (TempData.ContainsKey("CategoryRemovalFailed") && (bool)TempData["CategoryRemovalFailed"] == true)
+    {
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Oh no!</strong> You can't delete this category, because it's related to some products :(
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+    }
+}
+
+@{ foreach (Category category in categories)
+    {
+        <form class="edit-form d-flex">
+            <input id="@category.Id" value="@category.Name" name="name" type="search" class="form-control ds-input" />
+            <button class="icon-button" type="submit" asp-controller="Admin" asp-action="EditCategory" asp-route-id="@category.Id">
+                <i class="pnl-icon fa fa-save fa-lg"></i>
+            </button>
+            <!-- Button trigger modal -->
+            <button class="icon-button" type="submit" asp-route-id="@category.Id" asp-controller="Admin" asp-action="RemoveCategory">
+                <i class="pnl-icon fa fa-trash fa-lg"></i>
+            </button>
+            <br />
+        </form>
+    }
+}
+<form id="add-category-form" class="horizontal" asp-action="AddCategory" asp-controller="Admin" method="POST">
+    <input required id="add-category" name="name" type="search" class="form-control ds-input" />
+    <input type="submit" id="search-button" class="btn btn-primary btn-sm" value="Add">
+</form>
+
+

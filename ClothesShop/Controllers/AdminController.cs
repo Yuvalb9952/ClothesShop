@@ -300,6 +300,134 @@ namespace final_project.Controllers
         }
 
         #endregion
+
+        #region Categories
+
+        public IActionResult Categories()
+        {
+            if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }
+            List<Category> categories = _context.Categories.Where(cat => !cat.IsDeleted).ToList();
+            ViewBag.Categories = categories;
+            return View();
+        }
+
+        public IActionResult RemoveCategory(int id)
+        {
+            if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }
+
+            if (_context.Products.Where(product => !product.IsDeleted && product.Category.Id == id).Count() == 0)
+            {
+                _context.Categories.Single(p => p.Id == id).IsDeleted = true;
+                _context.SaveChanges();
+            }
+            else
+                TempData["CategoryRemovalFailed"] = true;
+
+            return Redirect("/Admin/Categories");
+        }
+
+        public IActionResult AddCategory(string name)
+        {
+            if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }
+
+            if (name == null)
+            {
+                return Redirect("/Admin/Categories");
+            }
+
+            Category newCategory = new Category() { Name = name };
+
+            _context.Add(newCategory);
+            _context.SaveChanges();
+            return Redirect("/Admin/Categories");
+        }
+
+        public IActionResult EditCategory(int id, string name)
+        {
+            if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }
+            Category categoryToEdit = _context.Categories.Single(c => c.Id == id);
+            categoryToEdit.Name = name;
+
+            _context.Update(categoryToEdit);
+            _context.SaveChanges();
+            return Redirect("/Admin/Categories");
+        }
+        #endregion
+
+        #region Branches
+
+        public IActionResult Branches()
+        {
+            if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }
+            List<Branch> branches = _context.Branches.ToList();
+            ViewBag.Branches = branches;
+            return View();
+        }
+
+        public IActionResult RemoveBranch(int id)
+        {
+            if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }
+            _context.Remove(_context.Branches.Single(b => b.ID == id));
+            _context.SaveChanges();
+            return Redirect("/Admin/Branches");
+        }
+
+        public IActionResult EditBranch(int id, string name, string address, float x, float y)
+        {
+            if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }
+            Branch branchToEdit = _context.Branches.Single(b => b.ID == id);
+
+            branchToEdit.BranchName = name;
+            branchToEdit.AddressInfo = address;
+            branchToEdit.LocationX = x;
+            branchToEdit.LocationY = y;
+
+            _context.Update(branchToEdit);
+            _context.SaveChanges();
+            return Redirect("/Admin/Branches");
+        }
+
+        public IActionResult AddBranch(int id, string name, string address, float x, float y)
+        {
+            if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }
+            Branch branchToEdit = new Branch()
+            {
+                BranchName = name,
+                AddressInfo = address,
+                LocationX = x,
+                LocationY = y
+            };
+
+            _context.Add(branchToEdit);
+            _context.SaveChanges();
+            return Redirect("/Admin/Branches");
+        }
+
+        #endregion
         private async Task<string> SaveImageFile(IFormFile img, string name)
         {
             // Create a File Info 
