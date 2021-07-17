@@ -25,7 +25,7 @@ namespace final_project.Controllers
             webHostEnvironment = iwebHostEnvironment;
         }
 
-        public class CostumerViewModel
+        public class CustomerViewModel
         {
             public string FullName { get; set; }
             public string Gender { get; set; }
@@ -135,30 +135,30 @@ namespace final_project.Controllers
 
         #endregion
 
-        #region Costumers
-        public IActionResult Costumers()
+        #region Customers
+        public IActionResult Customers()
         {
             if (HttpContext.Session.GetInt32("adminId") == null)
             {
                 return View("Views/Users/NotFound.cshtml");
             }
 
-            List<Customer> costumers = _context.Costumers.ToList();
+            List<Customer> customers = _context.Customers.ToList();
             List<Order> orders = _context.Orders.ToList();
-            List<CostumerViewModel> costumerView = orders.GroupBy(g => g.Customer.Email)
+            List<CustomerViewModel> customerView = orders.GroupBy(g => g.Customer.Email)
                 .Select(g =>
                 {
-                    var costumer = costumers.Single(c => c.Email == g.Key);
-                    return new CostumerViewModel
+                    var customer = customers.Single(c => c.Email == g.Key);
+                    return new CustomerViewModel
                     {
-                        FullName = $"{costumer.FirstName} {costumer.LastName}",
-                        Gender = costumer.Gender,
-                        Email = costumer.Email,
+                        FullName = $"{customer.FirstName} {customer.LastName}",
+                        Gender = customer.Gender,
+                        Email = customer.Email,
                         OrdersNumber = g.Count()
                     };
                 }).ToList();
 
-            ViewBag.CostumersView = costumerView;
+            ViewBag.CustomersView = customerView;
             return View();
         }
 
@@ -225,6 +225,81 @@ namespace final_project.Controllers
 
         #endregion
 
+        #region Orders
+
+        public IActionResult Orders()
+        {
+            if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }
+            List<Order> orders = _context.Orders.Include("Customer").ToList();
+            List<OrderStatus> statuses = _context.OrderStatuses.ToList();
+            ViewBag.Orders = orders;
+            ViewBag.statuses = statuses;
+
+            return View();
+        }
+
+        public IActionResult UpdateOrderStatus(int orderId, string id)
+        {
+            if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }
+
+            try
+            {
+                List<Order> orders = _context.Orders.Include("Customer").ToList();
+                Order orderToEdit = orders.Single(Order => Order.Id == orderId);
+
+                OrderStatus orderStatus = _context.OrderStatuses.Single(s => s.Id == int.Parse(id));
+                orderToEdit.Status = orderStatus;
+
+                _context.Update(orderToEdit);
+                _context.SaveChanges();
+
+                return Redirect("/Admin/Orders");
+            }
+            catch (Exception)
+            {
+                return Redirect("/Admin/Orders");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Orders(int orderId, int orderStatus, DateTime? orderDate)
+        {
+            if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }
+            List<Order> orders;
+
+            if (orderId != 0)
+            {
+                orders = _context.Orders.Where((order) => order.Id == orderId).Include("Customer").ToList();
+            }
+            else if (orderId == 0 && orderStatus == 0 && orderDate == null)
+            {
+                orders = _context.Orders.Include("Customer").ToList();
+            }
+            else
+            {
+                orders = _context.Orders.Where((order) => (orderStatus != 0 && orderDate != null && orderStatus == order.Status.Id) ||
+                        (orderStatus != 0 && orderStatus == order.Status.Id) ||
+                        (orderDate != null && orderDate.Equals(order.OrderDate))).Include("Customer").ToList();
+            }
+
+            List<OrderStatus> statuses = _context.OrderStatuses.ToList();
+
+            ViewBag.Orders = orders;
+            ViewBag.statuses = statuses;
+
+            return View();
+        }
+
+        #endregion
         private async Task<string> SaveImageFile(IFormFile img, string name)
         {
             // Create a File Info 

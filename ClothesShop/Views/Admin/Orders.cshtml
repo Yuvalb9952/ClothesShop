@@ -1,0 +1,61 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    List<Order> orders = ViewBag.Orders;
+    List<OrderStatus> statuses = ViewBag.statuses;
+    Dictionary<int,List<SelectListItem>> statusSelect = new Dictionary<int, List<SelectListItem>>();
+    }
+<h2>Orders</h2>
+<div id="search" class="horizontal">
+	<form id="searchForm" asp-action="Orders" asp-controller="Admin" method="POST">
+		<label>By ID:</label>
+		<input id="orderId" name="orderId" type="search" placeholder="type id to search.." class="form-control search-control ds-input" /> <br/>
+		<label>By status:</label>
+		<select class="form-control search-control ds-input" name="orderStatus">
+			<option value=0>Choose status</option>
+		@{ foreach (OrderStatus status in statuses)
+			{
+				<option value=@status.Id >@status.Name</option>
+			}
+		}
+		</select> </br>
+		<label>By date:</label>
+		<input type="date" class="datepicker form-control search-control ds-input" name="orderDate"/></br>
+		<input type="submit" id="search-button" class="btn form-control search-control btn-primary btn-sm" value="Search">
+	</form>
+</div>
+<h2>Orders</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Costumer</th>
+            <th scope="col">Date</th>
+            <th scope="col">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ foreach (Order order in orders)
+            {
+                <tr>
+                    <th>@order.Id</th>
+                    <td>@order.Customer.FirstName @order.Customer.LastName</td>
+                    <td>@order.OrderDate.ToShortDateString()</td>
+                    <td>
+                        @{ 
+                            statusSelect[order.Id] = new List<SelectListItem>();
+                            statuses.ForEach(status => statusSelect[order.Id].Add(new SelectListItem(status.Name, status.Id.ToString(), order.Status.Id == status.Id)));
+                        }
+                        @using (Html.BeginForm("UpdateOrderStatus", "Admin"))
+                        {
+                            @Html.Hidden("orderID", order.Id)
+                            @Html.DropDownList("id", statusSelect[order.Id], new { onchange = "this.form.submit();" })
+                        }
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
