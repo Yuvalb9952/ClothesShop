@@ -39,13 +39,13 @@ namespace final_project.Controllers
             {
                 return View("Views/Users/NotFound.cshtml");
             }
-            ViewBag.Name = HttpContext.Session.GetString("userName");
+            ViewBag.Name = HttpContext.Session.GetString("UserName");
             return View();
         }
 
         #region Products
 
-        public IActionResult EditProducts()
+        public IActionResult Products()
         {
             if (HttpContext.Session.GetInt32("adminId") == null)
             {
@@ -78,7 +78,7 @@ namespace final_project.Controllers
                 TempData["ProductRemovalFailed"] = true;
             }
 
-            return Redirect("/Admin/EditProducts");
+            return Redirect("/Admin/Products");
         }
 
         [HttpPost]
@@ -102,7 +102,7 @@ namespace final_project.Controllers
 
             _context.Add(newProduct);
             await _context.SaveChangesAsync();
-            return Redirect("/Admin/EditProducts");
+            return Redirect("/Admin/Products");
         }
 
         [HttpPost]
@@ -130,7 +130,7 @@ namespace final_project.Controllers
 
             _context.Update(productToEdit);
             await _context.SaveChangesAsync();
-            return Redirect("/Admin/EditProducts");
+            return Redirect("/Admin/Products");
         }
 
         #endregion
@@ -428,6 +428,8 @@ namespace final_project.Controllers
         }
 
         #endregion
+
+        // TODO : add statistics to admin mode
         private async Task<string> SaveImageFile(IFormFile img, string name)
         {
             // Create a File Info 
