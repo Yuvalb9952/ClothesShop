@@ -16,7 +16,7 @@ namespace ClothesShop.Controllers
 {
     public class CheckoutController : Controller
     {
-        private const string BaseCurrencyApiURL = "http://api.exchangeratesapi.io/latest?access_key=d09052d2042d3745dd5b18043e16e2fc&symbols=";
+        private const string BaseCurrencyApiURL = "https://api.exchangerate.host/latest?base=ILS&symbols=";
         private readonly ClothesShopContext _context;
 
         public Currency CurrentCurrency { get; set; }
