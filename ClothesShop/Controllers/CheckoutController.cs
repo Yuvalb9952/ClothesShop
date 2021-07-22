@@ -85,15 +85,15 @@ namespace ClothesShop.Controllers
             order.OrderItems = Cart;
             order.Customer.Email = order.Customer.Email.ToLower();
 
-            var existingCostumer = _context.Costumers.SingleOrDefault(x => x.Email == order.Customer.Email);
+            var existingCustomer = _context.Customers.SingleOrDefault(x => x.Email == order.Customer.Email);
 
-            if (existingCostumer != null)
+            if (existingCustomer != null)
             {
-                order.Customer = existingCostumer;
+                order.Customer = existingCustomer;
             }
             else
             {
-                _context.Costumers.Add(order.Customer); // TODO: Merge & change
+                _context.Customers.Add(order.Customer);
             }
             try
             {
