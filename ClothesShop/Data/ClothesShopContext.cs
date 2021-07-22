@@ -20,7 +20,7 @@ namespace ClothesShop.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderStatus> OrderStatuses { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<Customer> Costumers { get; set; }
+        public DbSet<Customer> Customers { get; set; }
 
         public void InitializeProducts()
         {
@@ -206,7 +206,7 @@ namespace ClothesShop.Data
             };
 
             OrderStatuses.AddRange(statusNew, statusAccepted, statusSent);
-            Costumers.AddRange(Adi, Eden, Tal, Yuval);
+            Customers.AddRange(Adi, Eden, Tal, Yuval);
 
             Order talOrder = new Order
             {

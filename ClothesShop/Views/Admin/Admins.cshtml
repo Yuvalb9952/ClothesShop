@@ -1,0 +1,54 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    List<Admin> admins = ViewBag.Admins;
+    int selfAdminId = ViewBag.SelfAdminId;
+}
+
+<h2>Admins</h2>
+
+@{ foreach (Admin admin in admins)
+    {
+        <form class="edit-form d-flex">
+            <div class="row w-100">
+                <div class="col">
+                    <input type="text" name="UserName" value="@admin.UserName" class="form-control ds-input" />
+                </div>
+                <div class="col">
+                    <input type="email" name="Email" value="@admin.Email" pattern="^[a-zA-Z0-9._+-]+@("@")[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" class="form-control ds-input" />
+                </div>
+                <div class="col">
+                    <input type="password" name="Password" value="@admin.Password" class="form-control ds-input" />
+                </div>
+
+                <div class="col">
+                    <button type="submit" asp-controller="Admin" asp-action="EditAdmin" asp-route-id="@admin.Id" class="icon-button">
+                        <i class="pnl-icon fa fa-save fa-lg"></i>
+                    </button>
+                    @{
+                        if (!(admin.Id == selfAdminId))
+                        {
+                            <button type="submit" asp-route-id="@admin.Id" asp-controller="Admin" asp-action="RemoveAdmin" class="icon-button">
+                                <i class="pnl-icon fa fa-trash fa-lg"></i>
+                            </button>
+                        }
+                    }
+                </div>
+            </div>
+        </form>
+    }
+}
+
+<form id="add-category-form" class="horizontal" asp-action="AddAdmin" asp-controller="Admin" method="POST">
+    <div class="row w-100">
+        <div class="col">
+            <input type="text" name="UserName" placeholder="UserName" required class="form-control ds-input" />
+        </div>
+        <div class="col">
+            <input type="text" name="Email" placeholder="Email" required pattern="^[a-zA-Z0-9._+-]+@("@")[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" class="form-control ds-input" />
+        </div>
+        <div class="col">
+            <input type="text" name="Password" placeholder="Password" required class="form-control ds-input" />
+        </div>
+        <input type="submit" id="search-button" class="btn btn-primary btn-sm" value="Add">
+    </div>
+</form>
