@@ -17,3 +17,17 @@
 .lh-condensed {
     line-height: 1.25;
 }
+
+img.checkout-img {
+    height: 50px;
+}
+
+.active {
+    border-radius: 10% !important;
+    background: #e8f0fe !important; 
+}
+
+.btn-img:hover {
+    border-radius: 10% !important;
+    background: #e8f0fe9e;
+}

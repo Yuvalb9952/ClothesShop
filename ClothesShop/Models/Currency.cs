@@ -1,11 +1,14 @@
-﻿using System.ComponentModel;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ClothesShop.Models
 {
     public enum Currency
     {
+        [Display(Name = "$")]
         USD = '$',
+        [Display(Name = "€")]
         EUR = '€',
-        ILS = '₪',
+        [Display(Name = "₪")]
+        ILS = '₪'
     }
 }
