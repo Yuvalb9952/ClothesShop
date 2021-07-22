@@ -43,10 +43,13 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
+    <footer class="row layout-footer">
+        <div class="container col-8">
             &copy; 2021 - ClothesShop - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
+        <a class="nav-link text-dark col-4" asp-area="" asp-controller="Authentication" asp-action="SignIn">
+            <img style="height:40px" class="float-right" title="Sign in admin" src="~/images/admin-icon.jpg" />
+        </a>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

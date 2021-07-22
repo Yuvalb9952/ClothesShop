@@ -1,0 +1,30 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var customersView = ViewBag.CustomersView;
+}
+
+<h2>Customers</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Mail</th>
+            <th scope="col">Number Of Orders</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ foreach (var customer in customersView)
+            {
+                <tr>
+                    <td>@customer.FullName</td>
+                    <td>@customer.Email</td>
+                    <td>@customer.OrdersNumber</td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+
+

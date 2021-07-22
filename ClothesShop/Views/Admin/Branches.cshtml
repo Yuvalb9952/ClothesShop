@@ -1,0 +1,56 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    List<Branch> branches = ViewBag.Branches;
+}
+
+<h2>Branches</h2>
+
+@{ foreach (Branch branch in branches)
+    {
+        <form class="edit-form d-flex">
+            <div class="row w-100">
+                <div class="col">
+                    <input type="text" name="name" value="@branch.BranchName" class="form-control ds-input" />
+                </div>
+                <div class="col">
+                    <input type="text" name="address" value="@branch.AddressInfo" class="form-control ds-input" />
+                </div>
+                <div class="col">
+                    <input type="number" name="x" value="@branch.LocationX" step="0.00001" pattern="[0-9]{2}\.[0-9]{5,}" class="form-control ds-input" />
+                </div>
+                <div class="col">
+                    <input type="number" name="y" value="@branch.LocationY" step="0.00001" pattern="[0-9]{2}\.[0-9]{5,}" class="form-control ds-input" />
+                </div>
+
+                <div class="col">
+                    <button type="submit" asp-controller="Admin" asp-action="EditBranch" asp-route-id="@branch.ID" class="icon-button">
+                        <i class="pnl-icon fa fa-save fa-lg"></i>
+                    </button>
+                    <button type="submit" asp-route-id="@branch.ID" asp-controller="Admin" asp-action="RemoveBranch" class="icon-button">
+                        <i class="pnl-icon fa fa-trash fa-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    }
+}
+
+<form id="add-category-form" class="horizontal" asp-action="AddBranch" asp-controller="Admin" method="POST">
+    <div class="row w-100">
+        <div class="col">
+            <input type="text" name="name" placeholder="Name" required class="form-control ds-input" />
+        </div>
+        <div class="col">
+            <input type="text" name="address" placeholder="Address" required class="form-control ds-input" />
+        </div>
+        <div class="col">
+            <input type="text" name="x" placeholder="X" step="0.00001"  pattern="[0-9]{2}\.[0-9]{5,}"  required class="form-control ds-input" />
+        </div>
+        <div class="col">
+            <input type="text" name="y" placeholder="Y" step="0.00001"  pattern="[0-9]{2}\.[0-9]{5,}"  required class="form-control ds-input" />
+        </div>
+        <input type="submit" id="search-button" class="btn btn-primary btn-sm" value="Add">
+    </div>
+</form>
+
+
