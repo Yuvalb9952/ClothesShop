@@ -3,6 +3,7 @@ using ClothesShop.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,7 @@ namespace ClothesShop.Controllers
         // GET: /<controller>/{choosenCurrency}
         public async Task<IActionResult> Checkout(List<string> invalidFieldsList, Currency choosenCurrency = Currency.ILS)
         {
-            Cart = GetCartFormSession().ToList();
+            Cart = GetCartFormSession();
             await UpdateCurrency(choosenCurrency);
             ViewBag.CurrentCurrency = CurrentCurrency;
             ViewBag.Cart = Cart;
@@ -54,7 +55,7 @@ namespace ClothesShop.Controllers
         [HttpPost]
         public IActionResult AddOrder(Order order)
         {
-            Cart = GetCartFormSession().ToList();
+            Cart = GetCartFormSession();
 
             var invalidFields = new List<string>();
 
@@ -154,11 +155,19 @@ namespace ClothesShop.Controllers
             return invalidFieldsList.Contains(inputName) ? "form-control is-invalid" : "form-control is-valid";
         }
 
-        public IEnumerable<OrderItem> GetCartFormSession()
+        public List<OrderItem> GetCartFormSession()
         {
             var cartIDs = HttpContext.Session.Keys.Where(id => int.TryParse(id, out var num)).Select(int.Parse);
-            return _context.Products.Where(product => cartIDs.Contains(product.Id)).Include("Category")
-                .Select(product => new OrderItem() { Product = product, Quantity = int.Parse(HttpContext.Session.GetString(product.Id.ToString())) });
+            var products = _context.Products.Where(product => cartIDs.Contains(product.Id)).Include("Category");
+            var orderItems = new List<OrderItem>();
+            foreach (var product in products)
+            {
+                foreach(var md in JsonConvert.DeserializeObject<List<ProductMetaData>>(HttpContext.Session.GetString(product.Id.ToString())))
+                {
+                    orderItems.Add(new OrderItem() { Product = product, Quantity = md.Quantity, Size = md.Size });
+                }
+            }
+            return orderItems;
         }
     }
 }

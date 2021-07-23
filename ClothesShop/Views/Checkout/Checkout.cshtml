@@ -14,7 +14,7 @@
                         <img class="checkout-img" src="@orderItem.Product.ImageSrc" asp-append-version="true" alt="@orderItem.Product.ImageSrc" />
                         <div class="col-8 pl-1 pr-0">
                             <h6 class="my-0">@orderItem.Product.Name</h6>
-                            <small class="text-muted">@orderItem.Product.Size</small>
+                            <small class="text-muted">@orderItem.Size</small>
                             <br />
                             <small class="text-muted">@orderItem.Product.Price@((char)ViewBag.CurrentCurrency) X @orderItem.Quantity</small>
                         </div>

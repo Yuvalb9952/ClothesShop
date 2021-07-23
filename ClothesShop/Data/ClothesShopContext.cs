@@ -93,7 +93,6 @@ namespace ClothesShop.Data
                 Category = tShirts,
                 IsDeleted = false,
                 Price = 50,
-                //Size = Size.Small,
                 Gender = Gender.F,
                 ImageSrc = "https://s7d2.scene7.com/is/image/aeo/0352_3818_900_l1?$pdp-md-opt$&fmt=webp"
             };
@@ -104,7 +103,6 @@ namespace ClothesShop.Data
                 Category = tShirts,
                 IsDeleted = false,
                 Price = 80,
-                //Size = Size.Medium,
                 Gender = Gender.M,
                 ImageSrc = "https://s7d2.scene7.com/is/image/aeo/0181_5372_109_f?$pdp-md-opt$&fmt=webp"
             };
@@ -115,7 +113,6 @@ namespace ClothesShop.Data
                 Category = dresses,
                 IsDeleted = false,
                 Price = 100,
-                //Size = Size.Large,
                 Gender = Gender.F,
                 ImageSrc = "https://s7d2.scene7.com/is/image/aeo/0395_5742_704_l1?$pdp-md-opt$&fmt=webp"
             };
@@ -126,7 +123,6 @@ namespace ClothesShop.Data
                 Category = pants,
                 IsDeleted = false,
                 Price = 120,
-                //Size = Size.Large,
                 Gender = Gender.M,
                 ImageSrc = "https://s7d2.scene7.com/is/image/aeo/0121_4549_204_f?$pdp-mdg-opt$&fmt=webp"
             };
@@ -137,7 +133,6 @@ namespace ClothesShop.Data
                 Category = shoes,
                 IsDeleted = false,
                 Price = 70,
-                //Size = Size.Medium,
                 Gender = Gender.F,
                 ImageSrc = "https://s7d2.scene7.com/is/image/aeo/0417_5167_109_f?$pdp-md-opt$&fmt=webp"
             };
@@ -148,7 +143,6 @@ namespace ClothesShop.Data
                 Category = jackets,
                 IsDeleted = false,
                 Price = 100,
-                //Size = Size.Small,
                 Gender = Gender.M,
                 ImageSrc = "https://s7d2.scene7.com/is/image/aeo/0106_1391_400_f?$pdp-md-opt$&fmt=webp"
             };
@@ -225,13 +219,15 @@ namespace ClothesShop.Data
             OrderItem talItem1 = new OrderItem
             {
                 Product = printedCrop,
-                Quantity = 2
+                Quantity = 2,
+                Size = Size.Small
             };
 
             OrderItem talItem2 = new OrderItem
             {
                 Product = flipflops,
-                Quantity = 1
+                Quantity = 1,
+                Size = Size.Medium
             };
 
             talOrder.OrderItems.Add(talItem1);
@@ -254,7 +250,8 @@ namespace ClothesShop.Data
             OrderItem yuvalItem1 = new OrderItem
             {
                 Product = denimJacket,
-                Quantity = 1
+                Quantity = 1,
+                Size = Size.Large
             };
 
             yuvalOrder.OrderItems.Add(yuvalItem1);

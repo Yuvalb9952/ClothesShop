@@ -11,6 +11,8 @@ namespace ClothesShop.Models
 
         public int Quantity{ get; set; }
 
+        public Size Size { get; set; }
+
         public int OrderId { get; set; }
      }
 }
