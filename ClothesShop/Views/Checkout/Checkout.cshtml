@@ -1,0 +1,147 @@
+﻿@using Microsoft.CodeAnalysis
+@{ ViewData["Title"] = "Shop"; }
+<div class="container view-container">
+    <div class="row">
+        <aside class="col-md-4 order-md-2 mb-4">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Your cart</span>
+                <span class="badge badge-secondary badge-pill">@ViewBag.CartSize</span>
+            </h4>
+            <ul class="list-group mb-3">
+                @foreach (var orderItem in ViewBag.Cart)
+                {
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <img class="checkout-img" src="@orderItem.Product.ImageSrc" asp-append-version="true" alt="@orderItem.Product.ImageSrc" />
+                        <div class="col-8 pl-1 pr-0">
+                            <h6 class="my-0">@orderItem.Product.Name</h6>
+                            <small class="text-muted">@orderItem.Size</small>
+                            <br />
+                            <small class="text-muted">@orderItem.Product.Price@((char)ViewBag.CurrentCurrency) X @orderItem.Quantity</small>
+                        </div>
+                    </li>
+                }
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Total (@ViewBag.CurrentCurrency)</span>
+                    <strong>
+                        <span class="value">@ViewBag.CartSum.ToString("N2")</span><span class="currency">@((char)ViewBag.CurrentCurrency)</span>
+                    </strong>
+                </li>
+            </ul>
+
+            <form class="card p-2">
+                <div class="row">
+                    <label class="col-sm-5 col-form-label mr-3">Currency</label>
+                    <div class="col-sm-5">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <a asp-controller="Checkout" asp-action="Checkout" asp-route-choosenCurrency="ILS"
+                               class=@(ViewBag.CurrentCurrency == Currency.ILS ? "btn btn-img active" : "btn btn-img")>
+                                <img src="~/images/israel.png" />
+                            </a>
+                            <a asp-controller="Checkout" asp-action="Checkout" asp-route-choosenCurrency="EUR"
+                               class=@(ViewBag.CurrentCurrency == Currency.EUR ? "btn btn-img active" : "btn btn-img")>
+                                <img src="~/images/european-union.png" />
+                            </a>
+                            <a asp-controller="Checkout" asp-action="Checkout" asp-route-choosenCurrency="USD"
+                               class=@(ViewBag.CurrentCurrency == Currency.USD ? "btn btn-img active" : "btn btn-img")>
+                                <img src="~/images/united-states-of-america.png" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+
+        </aside>
+        <div class="col-md-8 order-md-1">
+            <h4 class="mb-3">Billing address</h4>
+            <form class="needs-validation" novalidate asp-action="AddOrder" asp-controller="Checkout" method="POST">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="firstName">First name</label>
+                        <input type="text"
+                               class="@(ViewBag.GetInputClass("FirstName"))"
+                               id="Customer.FirstName" name="Customer.FirstName" placeholder="" value="" pattern="^[a-zA-Z]+$" required>
+                        <div class="invalid-feedback">
+                            First name is required, and must contain only letters.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="lastName">Last name</label>
+                        <input type="text" class="@(ViewBag.GetInputClass("LastName"))" id="Customer.LastName" name="Customer.LastName" placeholder="" value="" pattern="^[a-zA-Z]+$" required>
+                        <div class="invalid-feedback">
+                            Last name is required, and must contain only letters.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email">
+                        Email
+                        <span class="text-muted"></span>
+                    </label>
+                    <input type="email" class="@(ViewBag.GetInputClass("Email"))" id="Customer.Email" name="Customer.Email" placeholder="you@example.com" required>
+                    <div class="invalid-feedback">
+                        Email address is required.
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-9 mb-3">
+                        <label for="address">Address</label>
+                        <input type="text" class="@(ViewBag.GetInputClass("Address"))" id="address" name="Address" placeholder="1234 Main St" required>
+                        <div class="invalid-feedback">
+                            Shipping address is required.
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <label for="zip">Zip</label>
+                        <input type="text" class="@(ViewBag.GetInputClass("Zip"))" id="zip" name="Zip" pattern="\d{7}" placeholder="" required>
+                        <div class="invalid-feedback">
+                            Zip code is required.
+                        </div>
+                    </div>
+                </div>
+                <hr class="mb-4">
+                <h4 class="mb-3">Payment</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="cc-name">Name on card</label>
+                        <input type="text" class="@(ViewBag.GetInputClass("CreditCardName"))" id="cc-name" name="CreditCardName" placeholder="" pattern="^[a-zA-Z ]+$" required>
+                        <small class="text-muted">Enter full name as displayed on card</small>
+                        <div class="invalid-feedback">
+                            Name on card is required, and must contain only letters.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="cc-number">Credit card number</label>
+                        <input type="text" class="@(ViewBag.GetInputClass("CreditCardNumber"))" id="cc-number" name="CreditCardNumber" pattern="\d{16}" placeholder="" required>
+                        <div class="invalid-feedback">
+                            Credit card number is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="cc-expiration">Expiration</label>
+                        <input type="text" class="@(ViewBag.GetInputClass("CreditCardExpiration"))" id="cc-expiration" name="CreditCardExpiration" pattern="([0][1-9]|[1][0-2])/\d{2}" placeholder="12/21" required>
+                        <div class="invalid-feedback">
+                            Valid expiration date is required.
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="cc-expiration">CVV</label>
+                        <input type="text" class="@(ViewBag.GetInputClass("CreditCardCVV"))" id="cc-cvv" placeholder="" name="CreditCardCVV" pattern="\d{3}" required>
+                        <div class="invalid-feedback">
+                            Security code is required.
+                        </div>
+                    </div>
+                </div>
+                <hr class="mb-4">
+                <button id="checkout-submit" class="btn btn-primary btn-lg btn-block" type="submit">
+                    Checkout
+                </button>
+            </form>
+        </div></aside>
+    </div>
+</div>

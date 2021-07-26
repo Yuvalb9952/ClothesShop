@@ -1,5 +1,5 @@
 ﻿@{ List<Product> ProductsInBag = ViewBag.productsInBag;
-   Dictionary<int, int> Quantites = ViewBag.quantites;
+   Dictionary<int, List<ProductMetaData>> productsMD = ViewBag.productsMD;
    List<Product> Recommendations = ViewBag.statistics; 
    List<Size> ProductSizesList = ViewBag.productSizesList; 
  }
@@ -29,21 +29,24 @@
                 </thead>
                 <tbody>
                     @{ foreach (Product product in ProductsInBag)
-                       {
-                            <tr>
-                                <td><strong>@product.Name</strong></td>
-                                <td>@Quantites[product.Id]</td>
-                                <td>@product.Size</td>
-                                <td>@product.Price₪</td>
-                                <td>
-                                    @(Quantites[product.Id] * product.Price)₪<a asp-controller="Cart" asp-action="DeleteProduct" asp-route-id=@product.Id><i class="cart-trash fa fa-trash-o"></i></a>
-                                </td>
-                            </tr> 
-                       } 
-                     }
+                        {
+                            foreach (ProductMetaData metaData in productsMD[product.Id])
+                            {
+                                <tr>
+                                    <td><strong>@product.Name</strong></td>
+                                    <td>@metaData.Quantity</td>
+                                    <td>@metaData.Size</td>
+                                    <td>@product.Price₪</td>
+                                    <td>
+                                        @(metaData.Quantity * product.Price)₪<a asp-controller="Cart" asp-action="DeleteProduct" asp-route-id=@product.Id asp-route-size="@metaData.Size"><i class="cart-trash fa fa-trash-o"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
                     <tr>
                         <td colspan="4" class="text-right">Total</td>
-                        <td>@(ProductsInBag.Sum(p => p.Price * Quantites[p.Id]))₪</td>
+                        <td>@(ProductsInBag.Sum(p => p.Price * productsMD[p.Id].Sum(md => md.Quantity)))₪</td>
                     </tr>
                 </tbody>
              </table>
@@ -73,7 +76,7 @@
                                 @using (Html.BeginForm("AddRecommendationToCart", "Cart", FormMethod.Post))
                                 {
                                     <input type="hidden" name="Id" value="@product.Id" id="id" />
-                                    <select class="light-border mr-2 mt-3" asp-for="@product.Size" name="size">
+                                    <select class="light-border mr-2 mt-3" name="size">
                                         <option value="@Size.Small" selected>@Size.Small</option>
                                         <option value="@Size.Medium">@Size.Medium</option>
                                         <option value="@Size.Large">@Size.Large</option>

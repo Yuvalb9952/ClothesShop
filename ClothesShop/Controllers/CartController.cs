@@ -4,6 +4,7 @@ using ClothesShop.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,33 +25,44 @@ namespace ClothesShop.Controllers
         public IActionResult Cart()
         {
             var keys = HttpContext.Session.Keys.Where(key => key != "adminId" && key != "fullName");
-            Dictionary<int, int> quantites = new Dictionary<int, int>();
+            Dictionary<int, List<ProductMetaData>> productsMD = new Dictionary<int, List<ProductMetaData>>();
             List<Product> productsInBag = _context.Products.Where(x => keys.Contains(x.Id.ToString())).Include(product => product.Category).ToList();
             ViewBag.productsInBag = productsInBag;
 
             foreach (var key in keys)
             {
-                quantites.Add(int.Parse(key), int.Parse(HttpContext.Session.GetString(key)));
+                productsMD.Add(int.Parse(key), JsonConvert.DeserializeObject<List<ProductMetaData>>(HttpContext.Session.GetString(key)));
             }
 
             ViewBag.statistics = GetRecommendedProducts();
-            ViewBag.quantites = quantites;
+            ViewBag.productsMD = productsMD;
             ViewBag.productSizesList = new List<Size>() { Size.Small, Size.Medium, Size.Large };
 
             return View();
         }
 
         [HttpPost]
-        public IActionResult AddToCart(int id, int quantity)
+        public IActionResult AddToCart(int id, Size size, int quantity)
         {
             if (HttpContext.Session.GetString(id.ToString()) == null)
             {
-                HttpContext.Session.SetString(id.ToString(), quantity.ToString());
+                var mdList = new List<ProductMetaData>() { new ProductMetaData() { Quantity = quantity, Size = size } };
+                HttpContext.Session.SetString(id.ToString(), JsonConvert.SerializeObject(mdList));
             }
             else
             {
-                var newQuantity = int.Parse(HttpContext.Session.GetString(id.ToString())) + quantity;
-                HttpContext.Session.SetString(id.ToString(), newQuantity.ToString());
+                var mdList = JsonConvert.DeserializeObject<List<ProductMetaData>>(HttpContext.Session.GetString(id.ToString()));
+
+                if (mdList.Exists(md => md.Size == size))
+                {
+                    mdList.Find(md => md.Size == size).Quantity += quantity;
+                } 
+                else
+                {
+                    mdList.Add(new ProductMetaData() { Quantity = quantity, Size = size });
+                }
+
+                HttpContext.Session.SetString(id.ToString(), JsonConvert.SerializeObject(mdList));
             }
             return RedirectToAction("Shop", "Home");
         }
@@ -60,25 +72,40 @@ namespace ClothesShop.Controllers
         {
             if (HttpContext.Session.GetString(id.ToString()) == null)
             {
-                HttpContext.Session.SetString(id.ToString(), quantity.ToString());
+                var mdList = new List<ProductMetaData>() { new ProductMetaData() { Quantity = quantity, Size = size } };
+                HttpContext.Session.SetString(id.ToString(), JsonConvert.SerializeObject(mdList));
             }
             else
             {
-                var newQuantity = int.Parse(HttpContext.Session.GetString(id.ToString())) + quantity;
-                HttpContext.Session.SetString(id.ToString(), newQuantity.ToString());
+                var mdList = JsonConvert.DeserializeObject<List<ProductMetaData>>(HttpContext.Session.GetString(id.ToString()));
+
+                if (mdList.Exists(md => md.Size == size))
+                {
+                    mdList.Find(md => md.Size == size).Quantity += quantity;
+                }
+                else
+                {
+                    mdList.Add(new ProductMetaData() { Quantity = quantity, Size = size });
+                }
+
+                HttpContext.Session.SetString(id.ToString(), JsonConvert.SerializeObject(mdList));
             }
-
-            Product productToEdit = _context.Products.Single(p => p.Id == id);
-            productToEdit.Size = size;
-            _context.Update(productToEdit);
-            await _context.SaveChangesAsync();
-
             return RedirectToAction("Cart", "Cart");
         }
 
-        public IActionResult DeleteProduct(int id)
+        public IActionResult DeleteProduct(int id, Size size)
         {
-            HttpContext.Session.Remove(id.ToString());
+            var mdList = JsonConvert.DeserializeObject<List<ProductMetaData>>(HttpContext.Session.GetString(id.ToString()));
+
+            if (mdList?.Count > 1)
+            {
+                mdList = mdList.Where(md => md.Size != size).ToList();
+                HttpContext.Session.SetString(id.ToString(), JsonConvert.SerializeObject(mdList));
+            } 
+            else
+            {
+                HttpContext.Session.Remove(id.ToString());
+            }
             return RedirectToAction("Cart", "Cart");
         }
 
