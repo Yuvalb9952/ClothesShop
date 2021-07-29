@@ -122,12 +122,20 @@ namespace ClothesShop.Controllers
                 return View("Views/Users/NotFound.cshtml");
             }
 
-            Product productToEdit = _context.Products.Single(p => p.Id == id);
+            Product productToEdit = _context.Products.Include(p => p.Tags).Single(p => p.Id == id);
             productToEdit.Name = name;
             productToEdit.Category = _context.Categories.Single(c => c.Id == category);
             productToEdit.Price = price;
             productToEdit.Gender = gender;
-            productToEdit.Tags = _context.Tags.Where(t => tags.Contains(t.Id)).ToList();
+
+            if (productToEdit.Tags?.Any() == true)
+            {
+                productToEdit.Tags.Clear();
+                foreach (Tag tag in _context.Tags.Where(t => tags.Contains(t.Id)))
+                {
+                    productToEdit.Tags.Add(tag);
+                }
+            }            
 
             if (img != null)
             {
@@ -272,7 +280,7 @@ namespace ClothesShop.Controllers
                 return Redirect("/Admin/Orders");
             }
         }
-
+ 
         [HttpPost]
         public IActionResult Orders(int orderId, int orderStatus, DateTime? orderDate)
         {

@@ -121,19 +121,22 @@
                                                     }
                                                 </select>
                                             </div>
-                                            @*<div class="form-group">
+                                            <div class="form-group">
                                                 <label for="addTags">Tags:</label>
-                                                <select class="form-control" id="addTagsSelect" name="tags" multiple>
-                                                    @foreach (Tag tag in product.Tags)
-                                                    {
-                                                        <option value="@tag" selected>@tag.Name</option>
-                                                    }
-                                                    @foreach (Tag tag in tags.Where(t => !product.Tags.Contains(t)))
-                                                    {
-                                                        <option value="@tag.Id">@tag.Name</option>
-                                                    }
-                                                </select>
-                                            </div>*@
+                                                @foreach (var tag in tags)
+                                                {
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="tags" value="@tag.Id" 
+                                                            @if (product.Tags.Select(t => t.Id).Contains(tag.Id))
+                                                            {
+                                                                <text> checked </text> 
+                                                            } 
+                                                            /> @tag.Name
+                                                        </label>
+                                                    </div>
+                                                }
+                                            </div>
                                         </div>
                                         <div class="modal-footer">
                                             <input type="submit" id="search-button" class="btn btn-primary btn-sm" value="Edit">
@@ -191,25 +194,21 @@
                                         <option value="@Gender.Female">@Gender.Female</option>
                                     </select>
                                 </div>
-                                @*<div>
-                                    @using (Html.BeginForm("UpdateOrderStatus", "Admin"))
-                                    {
-                                        @Html.ListBoxFor(model => model.SelectedValues, new MultiSelectList(tags, "Id", "Name", Model.ItemsSelected.Select(x => x.Value)), multiple = "multiple" })
-                                    }
-                                </div>*@
-                                @*<div class="form-group">
+                                <div class="form-group">
                                     <label for="addTags">Tags:</label>
-                                    <select class="form-control light-border" name="tags" multiple>
-                                        @foreach (Tag tag in tags)
-                                        {
-                                            <option value="@tag.Id">@tag.Name</option>
-                                        }
-                                    </select>
-                                </div>*@
-                            </div>
-                            <div class="modal-footer">
+                                    @foreach (var tag in tags)
+                                    {
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="tags" value="@tag.Id" /> @tag.Name
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                             </div>
+                             <div class="modal-footer">
                                 <input type="submit" id="search-button" class="btn btn-primary btn-sm" value="Add">
-                            </div>
+                             </div>
                         </form>
                     </div>
                 </div>
