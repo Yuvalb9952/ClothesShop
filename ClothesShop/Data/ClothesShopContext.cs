@@ -17,6 +17,7 @@ namespace ClothesShop.Data
         public DbSet<Branch> Branches { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Tag> Tags { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderStatus> OrderStatuses { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -46,7 +47,7 @@ namespace ClothesShop.Data
             {
                 Email = "bla@gmail.com",
                 UserName = "bla",
-                Gender = Gender.F,
+                Gender = Gender.Female,
                 Password = "Aa123456"
             };
 
@@ -54,7 +55,7 @@ namespace ClothesShop.Data
             {
                 Email = "bla2@gmail.com",
                 UserName = "bla2",
-                Gender = Gender.M,
+                Gender = Gender.Male,
                 Password = "Aa123456"
             };
 
@@ -87,14 +88,52 @@ namespace ClothesShop.Data
 
             Categories.AddRange(tShirts, pants, dresses, shoes, jackets);
 
+            var elegant = new Tag
+            {
+                Name = "Elegant"
+            };
+
+            var casual = new Tag
+            {
+                Name = "Casual"
+            };
+
+            var sport = new Tag
+            {
+                Name = "Sport"
+            };
+
+            var party = new Tag
+            {
+                Name = "Party"
+            };
+
+            var summer = new Tag
+            {
+                Name = "Summer"
+            };
+
+            var spring = new Tag
+            {
+                Name = "Spring"
+            };
+
+            var colorful = new Tag
+            {
+                Name = "Colorful"
+            };
+
+            Tags.AddRange(elegant, casual, sport, party, summer, spring, colorful);
+
             var printedCrop = new Product
             {
                 Name = "Printed Crop",
                 Category = tShirts,
                 IsDeleted = false,
                 Price = 50,
-                Gender = Gender.F,
-                ImageSrc = "https://s7d2.scene7.com/is/image/aeo/0352_3818_900_l1?$pdp-md-opt$&fmt=webp"
+                Gender = Gender.Female,
+                ImageSrc = "https://s7d2.scene7.com/is/image/aeo/0352_3818_900_l1?$pdp-md-opt$&fmt=webp",
+                Tags = new List<Tag>() { party, summer, colorful }
             };
 
             var eagleTshirt = new Product
@@ -103,8 +142,9 @@ namespace ClothesShop.Data
                 Category = tShirts,
                 IsDeleted = false,
                 Price = 80,
-                Gender = Gender.M,
-                ImageSrc = "https://s7d2.scene7.com/is/image/aeo/0181_5372_109_f?$pdp-md-opt$&fmt=webp"
+                Gender = Gender.Male,
+                ImageSrc = "https://s7d2.scene7.com/is/image/aeo/0181_5372_109_f?$pdp-md-opt$&fmt=webp",
+                Tags = new List<Tag>() { casual, summer }
             };
 
             var babydollDress = new Product
@@ -113,8 +153,9 @@ namespace ClothesShop.Data
                 Category = dresses,
                 IsDeleted = false,
                 Price = 100,
-                Gender = Gender.F,
-                ImageSrc = "https://s7d2.scene7.com/is/image/aeo/0395_5742_704_l1?$pdp-md-opt$&fmt=webp"
+                Gender = Gender.Female,
+                ImageSrc = "https://s7d2.scene7.com/is/image/aeo/0395_5742_704_l1?$pdp-md-opt$&fmt=webp",
+                Tags = new List<Tag>() { elegant, spring }
             };
 
             var pocketPants = new Product
@@ -123,8 +164,9 @@ namespace ClothesShop.Data
                 Category = pants,
                 IsDeleted = false,
                 Price = 120,
-                Gender = Gender.M,
-                ImageSrc = "https://s7d2.scene7.com/is/image/aeo/0121_4549_204_f?$pdp-mdg-opt$&fmt=webp"
+                Gender = Gender.Male,
+                ImageSrc = "https://s7d2.scene7.com/is/image/aeo/0121_4549_204_f?$pdp-mdg-opt$&fmt=webp",
+                Tags = new List<Tag>() { party, casual }
             };
 
             var flipflops = new Product
@@ -133,8 +175,9 @@ namespace ClothesShop.Data
                 Category = shoes,
                 IsDeleted = false,
                 Price = 70,
-                Gender = Gender.F,
-                ImageSrc = "https://s7d2.scene7.com/is/image/aeo/0417_5167_109_f?$pdp-md-opt$&fmt=webp"
+                Gender = Gender.Female,
+                ImageSrc = "https://s7d2.scene7.com/is/image/aeo/0417_5167_109_f?$pdp-md-opt$&fmt=webp",
+                Tags = new List<Tag>() { summer }
             };
 
             var denimJacket = new Product
@@ -143,8 +186,9 @@ namespace ClothesShop.Data
                 Category = jackets,
                 IsDeleted = false,
                 Price = 100,
-                Gender = Gender.M,
-                ImageSrc = "https://s7d2.scene7.com/is/image/aeo/0106_1391_400_f?$pdp-md-opt$&fmt=webp"
+                Gender = Gender.Male,
+                ImageSrc = "https://s7d2.scene7.com/is/image/aeo/0106_1391_400_f?$pdp-md-opt$&fmt=webp",
+                Tags = new List<Tag>() { party }
             };
 
             Products.AddRange(

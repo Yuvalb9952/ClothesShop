@@ -68,3 +68,9 @@ video {
     height: 20%;
     right: 3%;
 }
+
+span.product-tag {
+    background-color: #ffdab994;
+    border-radius: 40%;
+    padding: 2px 5px 3px 5px;
+}
