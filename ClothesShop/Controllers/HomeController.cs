@@ -28,6 +28,7 @@ namespace ClothesShop.Controllers
         public IActionResult Contact()
         {
             ViewBag.Admins = _context.Admins.ToList();
+            ViewBag.Branches = _context.Branches.ToList();
             return View();
         }
 

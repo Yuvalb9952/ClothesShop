@@ -9,20 +9,21 @@
                 <section class="container">
                     <div class="row">
                         <div style="text-align :center;" class="col">
-                            <img style="height:40px;" src="~/images/shop-icon.png" />
+                            <img style="height:40px;" src="~/images/shopping-cart.png" />
                             <br>
                             @foreach (Branch branch in branches)
                             {
-                            <h6>@branch.BranchName</h6>
-                            <span>@branch.AddressInfo</span>
+                            <h6 style="padding-top: 1rem;">@branch.BranchName</h6>
+                            <p>@branch.AddressInfo</p>
                             }
                         </div>
                         <div style="text-align :center;"  class="col">
-                            <img style="height:40px;" src="~/images/email-icon.jpg" />
+                            <img style="height:40px;" src="~/images/email-icon.png" />
                             <br>
                             @foreach (Admin admin in admins)
                             {
                                 <span>@admin.Email</span>
+                                <br>
                             }
                         </div>
                     </div>
