@@ -1,0 +1,194 @@
+﻿@{ Layout = "~/Views/Shared/_AdminLayout.cshtml"; }
+<div>
+    <script src="https://d3js.org/d3.v7.min.js" charset="utf-8"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <div class="d-flex">
+        <div class="col">
+            <h5>Products popularity</h5>
+            <svg class="mt-2" id="productOrdersCount"></svg>
+        </div>
+        <div class="col">
+            <h5>Profit per month</h5>
+            <svg class="mt-2" id="profitPerMonth"></svg>
+        </div>
+    </div>
+    <div class="d-flex mt-4">
+        <div class="col">
+            <h5>Orders by categories</h5>
+            <svg class="mt-2" id="categoriesOrdersCount"></svg>
+        </div>
+        <div class="col">
+            <h5>Orders by order status</h5>
+            <svg class="mt-2" id="orderStatusCount"></svg>
+        </div>
+    </div>
+</div>
+<script>
+
+    $.ajax({
+        type: "GET",
+        url: '/Statistics/ProductOrdersCount',
+        success: function (result) {
+            createBarGraph(JSON.parse(result), "productOrdersCount", "#e8c6f4f0");
+        },
+        error: function (hxr, status, err) {
+            console.log('status: ' + status + ', error: ' + err);
+        }
+    });
+
+    $.ajax({
+        type: "GET",
+        url: '/Statistics/ProfitPerMonth',
+        success: function (result) {
+            createBarGraph(JSON.parse(result), "profitPerMonth", "#69cd88");
+        },
+        error: function (hxr, status, err) {
+            console.log('status: ' + status + ', error: ' + err);
+        }
+    });
+
+    $.ajax({
+        type: "GET",
+        url: '/Statistics/CategoriesOrdersCount',
+        success: function (result) {
+            createPieChart(JSON.parse(result), "categoriesOrdersCount");
+        },
+        error: function (hxr, status, err) {
+            console.log('status: ' + status + ', error: ' + err);
+        }
+    });
+
+    $.ajax({
+        type: "GET",
+        url: '/Statistics/OrderStatusCount',
+        success: function (result) {
+            createPieChart(JSON.parse(result), "orderStatusCount");
+        },
+        error: function (hxr, status, err) {
+            console.log('status: ' + status + ', error: ' + err);
+        }
+    });
+
+    function createBarGraph(data, sectionId, color) {
+
+        var margin = {
+            top: 20,
+            right: 20,
+            bottom: 50,
+            left: 40
+        },
+            width = 250 - margin.left - margin.right,
+            height = 250 - margin.top - margin.bottom;
+
+
+        var x = d3.scaleBand()
+            .range([width, 0])
+            .padding(0.1)
+
+        var y = d3.scaleLinear()
+            .range([0, height]);
+
+        var svg = d3.select(`svg#${sectionId}`)
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        x.domain(data.map(function (d) {
+            return d.Name;
+        }));
+
+        y.domain([d3.max(data, function (d) {
+            return d.Value;
+        }), 0]);
+
+            svg.selectAll(".bar")
+                .data(data)
+                .enter().append("rect")
+                .attr("class", "bar")
+                .attr("fill", color)
+
+                .attr("x", function (d) {
+                    return x(d.Name);
+                })
+                .attr("width", x.bandwidth())
+                .attr("y", function (d) {
+                    return y(d.Value);
+                })
+                .attr("height", function (d) {
+                    return height - y(d.Value);
+                });
+
+        var xAxis = g => g
+            .attr("transform", `translate(0,${height})`)
+            .call(d3.axisBottom(x).tickSizeOuter(0))
+
+        var yAxis = g => g
+            .call(d3.axisLeft(y))
+            .call(g => g.select(".domain").remove())
+
+            svg.append("g")
+                .call(xAxis);
+
+        svg.append("g")
+            .call(yAxis);
+    }
+
+    function createPieChart(data, sectionId) {
+
+        var width = 250,
+            height = 250,
+            radius = Math.min(width, height) / 3;
+
+        var pie = d3.pie()
+                    .sort(null)
+                    .value(d => d.Value);
+
+        var arcs = pie(data);
+
+        var color = d3.scaleOrdinal()
+            .domain(data.map(d => d.Name))
+            .range(d3.quantize(t => d3.interpolateSpectral(t * 0.8 + 0.1), data.length).reverse());
+
+        var arc = d3.arc()
+                    .innerRadius(0)
+                    .outerRadius(Math.min(width, height) / 2 - 1);
+
+        var arcLabel = d3.arc().innerRadius(radius).outerRadius(radius);
+
+        var svg = d3.select(`svg#${sectionId}`)
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");                
+
+        svg.append("g")
+            .attr("stroke", "white")
+            .selectAll("path")
+            .data(arcs)
+            .join("path")
+            .attr("fill", d => color(d.data.Name))
+            .attr("d", arc)
+            .append("title")
+            .text(d => `${d.data.Name}: ${d.data.Value.toLocaleString()}`);
+
+        svg.append("g")
+            .attr("font-family", "sans-serif")
+            .attr("font-size", 12)
+            .attr("text-anchor", "middle")
+            .selectAll("text")
+            .data(arcs)
+            .join("text")
+            .attr("transform", d => `translate(${arcLabel.centroid(d)})`)
+            .call(text => text.append("tspan")
+                .attr("y", "-0.4em")
+                .attr("font-weight", "bold")
+                .text(d => d.data.Name))
+            .call(text => text.filter(d => (d.endAngle - d.startAngle) > 0.25).append("tspan")
+                .attr("x", 0)
+                .attr("y", "0.7em")
+                .attr("fill-opacity", 0.7)
+                .text(d => d.data.Value.toLocaleString()));
+    }
+
+</script>
