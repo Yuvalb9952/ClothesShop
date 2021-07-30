@@ -1,0 +1,39 @@
+﻿@{
+    List<Admin> admins = ViewBag.Admins;
+    List<Branch> branches = ViewBag.Branches;
+}
+<div class="view-container container">
+    <section class="container">
+        <div class="row">
+            <div class="col">
+                <section class="container">
+                    <div class="row">
+                        <div style="text-align :center;" class="col">
+                            <img style="height:40px;" src="~/images/shop-icon.png" />
+                            <br>
+                            @foreach (Branch branch in branches)
+                            {
+                            <h6>@branch.BranchName</h6>
+                            <span>@branch.AddressInfo</span>
+                            }
+                        </div>
+                        <div style="text-align :center;"  class="col">
+                            <img style="height:40px;" src="~/images/email-icon.jpg" />
+                            <br>
+                            @foreach (Admin admin in admins)
+                            {
+                                <span>@admin.Email</span>
+                            }
+                        </div>
+                    </div>
+                    <div style="text-align :center; padding-top : 40px;">
+                        <h2>Please contact us! Let us know how we can help you</h2>
+                    </div>
+                </section>
+            </div>
+            <div class="map-wrapper col">
+                <div id="myMap" style="position:relative;width:100%;height:500px;"></div>
+            </div>
+        </div>
+    </section>
+</div>

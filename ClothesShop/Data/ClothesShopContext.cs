@@ -40,7 +40,23 @@ namespace ClothesShop.Data
                 LocationY = (float)35.209204
             };
 
-            Branches.AddRange(tlvBranch, jerusalemBranch);
+            var ashdodBranch = new Branch
+            {
+                BranchName = "ClothesShop - HQ",
+                AddressInfo = "Ashdod, Big fashion",
+                LocationX = (float)31.776842,
+                LocationY = (float)34.663914
+            };
+
+            var HerzliyaBranch = new Branch
+            {
+                BranchName = "ClothesShop - HQ",
+                AddressInfo = "Herzliya, Arena mall",
+                LocationX = (float)32.163753,
+                LocationY = (float)34.796861
+            };
+
+            Branches.AddRange(tlvBranch, jerusalemBranch, HerzliyaBranch, ashdodBranch);
 
             var admin1 = new Admin
             {
