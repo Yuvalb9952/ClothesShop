@@ -28,9 +28,9 @@ namespace ClothesShop.Data
             var tlvBranch = new Branch
             {
                 BranchName = "ClothesShop - TLV",
-                AddressInfo = "Tel Aviv, Menachem Begin 148 Blvd",
-                LocationX = (float)32.074031,
-                LocationY = (float)34.792868
+                AddressInfo = "Tel Aviv, TLV Mall",
+                LocationX = (float)32.069500,
+                LocationY = (float)34.786509
             };
 
             var jerusalemBranch = new Branch
@@ -41,7 +41,23 @@ namespace ClothesShop.Data
                 LocationY = (float)35.209204
             };
 
-            Branches.AddRange(tlvBranch, jerusalemBranch);
+            var ashdodBranch = new Branch
+            {
+                BranchName = "ClothesShop - HQ",
+                AddressInfo = "Ashdod, Big fashion",
+                LocationX = (float)31.776842,
+                LocationY = (float)34.663914
+            };
+
+            var HerzliyaBranch = new Branch
+            {
+                BranchName = "ClothesShop - HQ",
+                AddressInfo = "Herzliya, Arena mall",
+                LocationX = (float)32.163753,
+                LocationY = (float)34.796861
+            };
+
+            Branches.AddRange(tlvBranch, jerusalemBranch, HerzliyaBranch, ashdodBranch);
 
             var admin1 = new Admin
             {
@@ -285,7 +301,7 @@ namespace ClothesShop.Data
                 CreditCardName = "Yuval Ben Amram",
                 CreditCardNumber = "6789678967896789",
                 Customer = Yuval,
-                OrderDate = new System.DateTime(2021, 7, 10),
+                OrderDate = new System.DateTime(2021, 5, 10),
                 Status = statusAccepted,
                 Zip = "1232345",
                 OrderItems = new System.Collections.Generic.List<OrderItem>()

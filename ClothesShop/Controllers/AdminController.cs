@@ -508,7 +508,6 @@ namespace ClothesShop.Controllers
 
         #endregion
 
-        // TODO : add statistics to admin mode
         private async Task<string> SaveImageFile(IFormFile img, string name)
         {
             // Create a File Info 
@@ -531,6 +530,16 @@ namespace ClothesShop.Controllers
             }
 
             return pathToSave;
+        }
+        
+        public IActionResult Statistics()
+        {
+            if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }
+
+            return View();
         }
     }
 }
