@@ -26,7 +26,7 @@ namespace ClothesShop.Controllers
         {
             var keys = HttpContext.Session.Keys.Where(key => key != "adminId" && key != "UserName");
             Dictionary<int, List<ProductMetaData>> productsMD = new Dictionary<int, List<ProductMetaData>>();
-            List<Product> productsInBag = _context.Products.Where(x => keys.Contains(x.Id.ToString())).Include(product => product.Category).ToList();
+            List<Product> productsInBag = _context.Products.Where(x => keys.Contains(x.Id.ToString())).Include(product => product.Category).Include(product => product.Tags).ToList();
             ViewBag.productsInBag = productsInBag;
 
             foreach (var key in keys)
@@ -112,7 +112,7 @@ namespace ClothesShop.Controllers
         public IEnumerable<Product> GetCartFormSession()
         {
             var cartIDs = HttpContext.Session.Keys.Where(id => int.TryParse(id, out var num)).Select(int.Parse);
-            return _context.Products.Include(prod => prod.Category).Where(product => cartIDs.Contains(product.Id));
+            return _context.Products.Include(prod => prod.Category).Include(prod => prod.Tags).Where(product => cartIDs.Contains(product.Id));
         }
 
         public List<Product> GetRecommendedProducts()
@@ -122,7 +122,7 @@ namespace ClothesShop.Controllers
 
             // Get the Models
             List<Order> orders = _context.Orders.ToList();
-            List<Product> products = _context.Products.Include(product => product.Category).ToList();
+            List<Product> products = _context.Products.Include(product => product.Category).Include(product => product.Tags).ToList();
             List<OrderItem> orderItems = _context.OrderItems.ToList();
             List<Category> categories = _context.Categories.ToList();
 
@@ -154,14 +154,14 @@ namespace ClothesShop.Controllers
             Product[][] decideProd = productsRules.Decide(productToReturn);
 
             if (decideProd.Length == 0)
-                return _context.Products.Where(prod => !prod.IsDeleted).Include(product => product.Category).Take(3).ToList();
+                return _context.Products.Where(prod => !prod.IsDeleted).Include(product => product.Category).Include(product => product.Tags).Take(3).ToList();
 
             List<Product> recommended = decideProd[0].Where(prod => !prod.IsDeleted).ToList();
             if (recommended.Count > 0)
                 // Return the first row of the suggestion - the most fit suggesion (can return the whole suggestions instead)
                 return decideProd[0].Where(prod => !prod.IsDeleted).ToList();
             else
-                return _context.Products.Where(prod => !prod.IsDeleted).Include(product => product.Category).Take(3).ToList();
+                return _context.Products.Where(prod => !prod.IsDeleted).Include(product => product.Category).Include(product => product.Tags).Take(3).ToList();
         }
     }
 }

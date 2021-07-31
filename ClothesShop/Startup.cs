@@ -32,13 +32,12 @@ namespace ClothesShop
             });
 
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0).AddSessionStateTempDataProvider();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest).AddSessionStateTempDataProvider();
             services.AddResponseCaching();
             services.AddSession();
 
             services.AddDbContext<ClothesShopContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("ClothesShopContext")));
-            // TODO: Check connection string
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

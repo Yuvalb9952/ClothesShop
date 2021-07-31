@@ -86,7 +86,12 @@
                                         <button type="submit" class="icon-button add-to-cart-btn"><i class="pnl-icon fa fa-plus-circle fa-lg"></i></button>
                                     </div>
                                 }
-
+                                <div>
+                                    @foreach (Tag tag in product.Tags)
+                                    {
+                                        <span class="product-tag mr-2"># @tag.Name</span>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>     

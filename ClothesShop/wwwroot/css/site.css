@@ -8,6 +8,11 @@ for details on configuring this project to bundle and minify static web assets. 
 @import url("checkout.css");
 @import url("orders.css");
 
+.modal-body {
+    max-height: 500px;
+    overflow: auto;
+}
+
 @font-face {
     font-family: mySacramento;
     src: url(../fonts/Sacramento-Regular.ttf);

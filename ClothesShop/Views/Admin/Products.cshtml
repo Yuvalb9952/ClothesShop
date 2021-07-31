@@ -3,6 +3,7 @@
     ViewData["Title"] = "Shop";
     List<Product> products = ViewBag.Products;
     List<Category> categories = ViewBag.Categories;
+    List<Tag> tags = ViewBag.Tags;
 
 }
 
@@ -44,6 +45,13 @@
                                         <span class="pnl-label">@product.Name</span>
                                         <span class="pnl-category">@product.Category.Name</span>
                                         <span class="pnl-price">@product.Price&#8362;</span>
+                                        <span class="pnl-gender">@product.Gender</span>
+                                        <div>
+                                            @foreach (Tag tag in product.Tags)
+                                            {
+                                                <span class="product-tag mr-2"># @tag.Name</span>
+                                            }
+                                        </div>
                                     </div>
                                     <a data-toggle="modal" data-target="@editIdTarget">
                                         <i class="pnl-icon fa fa-pencil fa-lg"></i>
@@ -98,6 +106,37 @@
                                                 <label for="addPrice">Price:</label>
                                                 <input id="addPrice" name="price" type="number" value="@product.Price" class="form-control ds-input" />
                                             </div>
+                                            <div class="form-group">
+                                                <label for="addGender">Gender:</label>
+                                                <select class="form-control" id="addGenderSelect" name="gender">
+                                                    @if (product.Gender == Gender.Male)
+                                                    {
+                                                        <option value="@Gender.Male" selected>@Gender.Male</option>
+                                                        <option value="@Gender.Female">@Gender.Female</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@Gender.Male">@Gender.Male</option>
+                                                        <option value="@Gender.Female" selected>@Gender.Female</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="addTags">Tags:</label>
+                                                @foreach (var tag in tags)
+                                                {
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="tags" value="@tag.Id" 
+                                                            @if (product.Tags.Select(t => t.Id).Contains(tag.Id))
+                                                            {
+                                                                <text> checked </text> 
+                                                            } 
+                                                            /> @tag.Name
+                                                        </label>
+                                                    </div>
+                                                }
+                                            </div>
                                         </div>
                                         <div class="modal-footer">
                                             <input type="submit" id="search-button" class="btn btn-primary btn-sm" value="Edit">
@@ -106,7 +145,7 @@
                                 </div>
                             </div>
                         </div>
-                    }
+                                                        }
                 }
             </ul>
 
@@ -124,7 +163,7 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label for="addName">Product Name:</label>
-                                    <input id="addName" name="name" type="search" class="form-control ds-input" required/>
+                                    <input id="addName" name="name" type="search" class="form-control ds-input" required />
                                 </div>
 
                                 <div class="form-group">
@@ -146,12 +185,30 @@
 
                                 <div class="form-group">
                                     <label for="addPrice">Price:</label>
-                                    <input min="1" id="addPrice" name="price" type="number" class="form-control ds-input" required/>
+                                    <input min="1" id="addPrice" name="price" type="number" class="form-control ds-input" required />
                                 </div>
-                            </div>
-                            <div class="modal-footer">
+                                <div class="form-group">
+                                    <label for="addGender">Gender:</label>
+                                    <select class="form-control light-border" name="gender">
+                                        <option value="@Gender.Male" selected>@Gender.Male</option>
+                                        <option value="@Gender.Female">@Gender.Female</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="addTags">Tags:</label>
+                                    @foreach (var tag in tags)
+                                    {
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="tags" value="@tag.Id" /> @tag.Name
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                             </div>
+                             <div class="modal-footer">
                                 <input type="submit" id="search-button" class="btn btn-primary btn-sm" value="Add">
-                            </div>
+                             </div>
                         </form>
                     </div>
                 </div>

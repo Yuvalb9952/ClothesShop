@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 
@@ -14,6 +15,7 @@ namespace ClothesShop.Models
         public Gender Gender { get; set; }
         public string ImageSrc { get; set; }
         public bool IsDeleted { get; set; }
+        public List<Tag> Tags { get; set; }
 
         public int CompareTo(Product other)
         {

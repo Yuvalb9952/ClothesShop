@@ -4,9 +4,7 @@ namespace ClothesShop.Models
 {
     public enum Gender
     {
-        [Description("Male")]
-        M,
-        [Description("Female")]
-        F
+        Male,
+        Female
     }
 }

@@ -258,6 +258,10 @@
         line-height: 20px;
     }
 
+    .pnl-gender {
+        font-size: 0.9em;
+    }
+
     .pnl-favorites, .pnl-tocart {
         width: 56px
     }

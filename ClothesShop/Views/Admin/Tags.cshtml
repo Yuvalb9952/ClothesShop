@@ -1,0 +1,41 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    List<Tag> tags = ViewBag.Tags;
+}
+
+<h2>Tags</h2>
+
+@{ if (TempData.ContainsKey("TagRemovalFailed") && (bool)TempData["TagRemovalFailed"] == true)
+    {
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Oh no!</strong> You can't delete this tag, because it's related to some products :(
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+    }
+}
+
+@{ foreach (Tag tag in tags)
+    {
+        <form class="edit-form d-flex">
+            <input id="@tag.Id" value="@tag.Name" name="name" type="search" class="form-control ds-input" />
+            <button class="icon-button" type="submit" asp-controller="Admin" asp-action="EditTag" asp-route-id="@tag.Id">
+                <i class="pnl-icon fa fa-save fa-lg"></i>
+            </button>
+            <!-- Button trigger modal -->
+            <button class="icon-button" type="submit" asp-route-id="@tag.Id" asp-controller="Admin" asp-action="RemoveTag">
+                <i class="pnl-icon fa fa-trash fa-lg"></i>
+            </button>
+            <br />
+        </form>
+    }
+}
+<form id="add-tag-form" class="horizontal" asp-action="AddTag" asp-controller="Admin" method="POST">
+    <input required id="add-tag" name="name" type="search" class="form-control ds-input" />
+    <input type="submit" id="search-button" class="btn btn-primary btn-sm" value="Add">
+</form>
+
+
