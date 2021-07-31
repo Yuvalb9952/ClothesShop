@@ -1,0 +1,75 @@
+﻿@{ ViewData["Title"] = "Shop";
+                List<Product> products = ViewBag.Products;
+                List<Category> categories = ViewBag.categories;
+                int productsInBagCount = ViewBag.productsInBagCount; }
+<div class="container view-container">
+    <div class="layout">
+        <section class="inner">
+
+            Items in cart: @productsInBagCount.ToString()
+
+            <div id="search" class="horizontal">
+                <form id="searchForm" class="horizontal" asp-action="Shop" asp-controller="Home" method="POST">
+                    <input id="searchText" name="searchText" type="search" class="form-control ds-input" />
+                    <select name="category">
+                        <option value=0>Choose category</option>
+                        @{ foreach (Category category in categories)
+                            {
+                <option value=@category.Id>@category.Name</option> } }
+                    </select>
+                    <input type="number" name="minPrice" class="price-range" placeholder="Min price" /><span>-</span>
+                    <input type="number" name="maxPrice" class="price-range" placeholder="Max price" />
+                    <input type="submit" id="search-button" class="btn btn-primary btn-sm" value="Search">
+                </form>
+            </div>
+            @{ if (products.Count == 0)
+                            {
+                <p class="no-products">No products to display!</p> } }
+            <ul class="grid">
+                @{ foreach (Product product in products)
+                    {
+                        if (product.IsDeleted) { continue; }
+
+        <li class="grid-tile">
+            <div class="item">
+                <img class="item-img"
+                     src="@product.ImageSrc"
+                     asp-append-version="true"
+                     alt="@product.Name" />
+                <div class="pnl-wrapper">
+                    <div class="pnl-description">
+                        <span class="pnl-label" title="@product.Name">@product.Name</span>
+                        <span class="pnl-category">@product.Category.Name</span>
+                        <span class="pnl-price">@product.Price&#8362;</span>
+                    </div>
+                    @using (Html.BeginForm("AddToCart", "Cart"))
+                    {
+    <input type="hidden" name="Id" value="@product.Id" id="id" />
+                        <input id="qantity" type="number" name="quantity" value=1 min="1" max="100">
+                                            <button type="submit" class="icon-button add-to-cart-button"><i class="pnl-icon fa fa-plus-circle fa-lg"></i></button>}
+                </div>
+            </div>
+        </li> } }
+            </ul>
+        </section>
+    </div>
+</div>
+
+<script>$('.price-range').keyup(function () {
+        var maxValue = $('input[name^="maxPrice"]').val();
+        var minValue = $('input[name^="minPrice"]').val();
+
+        if (!maxValue || maxValue - minValue >= 0) {
+            $("#search-button").attr("disabled", false);
+        } else {
+            $("#search-button").attr("disabled", true);
+        }
+
+        if (!maxValue || maxValue.startsWith("-")) {
+            $('input[name^="maxPrice"]').val("");
+        }
+
+        if (!minValue || minValue.startsWith("-")) {
+            $('input[name^="minPrice"]').val("");
+        }
+    });</script>
