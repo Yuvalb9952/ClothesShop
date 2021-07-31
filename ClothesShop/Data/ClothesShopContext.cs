@@ -257,7 +257,7 @@ namespace ClothesShop.Data
                 CreditCardName = "Yuval Ben Amram",
                 CreditCardNumber = "6789678967896789",
                 Customer = Yuval,
-                OrderDate = new System.DateTime(2021, 7, 10),
+                OrderDate = new System.DateTime(2021, 5, 10),
                 Status = statusAccepted,
                 Zip = "1232345",
                 OrderItems = new System.Collections.Generic.List<OrderItem>()
