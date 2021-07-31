@@ -10,12 +10,14 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="~/css/font-awesome.css" />
+        <link rel="stylesheet" href="~/css/admin.css" />
         <link rel="stylesheet" href="~/css/site.css" />
 
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
+        <link rel="stylesheet" href="~/css/admin.css" />
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     </environment>
 </head>
@@ -51,6 +53,9 @@
                     </li>
                 </ul>
             </div>
+            <li class="float-right d-flex">
+               <a class="nav-link btn-logout" asp-area="" asp-controller="User" asp-action="Logout">Logout</a>
+            </li>
         </nav>
     </header>
     <div class="container-fluid">

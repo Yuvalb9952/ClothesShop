@@ -27,9 +27,9 @@ namespace ClothesShop.Data
             var tlvBranch = new Branch
             {
                 BranchName = "ClothesShop - TLV",
-                AddressInfo = "Tel Aviv, Menachem Begin 148 Blvd",
-                LocationX = (float)32.074031,
-                LocationY = (float)34.792868
+                AddressInfo = "Tel Aviv, TLV Mall",
+                LocationX = (float)32.069500,
+                LocationY = (float)34.786509
             };
 
             var jerusalemBranch = new Branch
