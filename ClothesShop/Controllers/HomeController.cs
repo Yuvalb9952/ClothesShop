@@ -6,20 +6,29 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using ClothesShop.Data;
 
 namespace ClothesShop.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ClothesShopContext _context;
+        public HomeController(ClothesShopContext context,ILogger<HomeController> logger)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
+            return View();
+        }
+
+        public IActionResult Contact()
+        {
+            ViewBag.Admins = _context.Admins.ToList();
+            ViewBag.Branches = _context.Branches.ToList();
             return View();
         }
 

@@ -30,26 +30,25 @@ namespace ClothesShop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> postOnFacebook(string message, string link=null, IFormFile img=null)
+        public async Task<IActionResult> postOnFacebook(string message, string link=null)
         {
-            /*if (HttpContext.Session.GetInt32("adminId") == null)
+            if (HttpContext.Session.GetInt32("adminId") == null)
             {
                 return View("Views/Users/NotFound.cshtml");
-            }*/
+            }
 
-            /*string pathToSave = await SaveImageFile(img, );*/
+            var args = new Dictionary<string, object>();
+            string postMessage = message;
 
-            var postMessage = message + "\n >>>>>>" + link;
-
-            FacebookPost postObj = new FacebookPost()
+            if (link != null)
             {
-                message = postMessage,
-                image = img
-            };
-            await client.PostTaskAsync("/109078328141449/feed", postObj);
+                postMessage = postMessage + "\n >>>>>>>>>>> " + link;
+            }
+            args["message"] = postMessage;
 
-            /*await _context.SaveChangesAsync();*/
-            return Redirect("/Admin/Facebook");
+            await client.PostTaskAsync("/109078328141449/feed", args);
+
+            return Redirect("/Admin/Welcome");
         }
     }
 }
