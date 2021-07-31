@@ -20,6 +20,7 @@
 
 img.checkout-img {
     height: 50px;
+    border-radius: 0.2rem;
 }
 
 .active {
@@ -30,4 +31,9 @@ img.checkout-img {
 .btn-img:hover {
     border-radius: 10% !important;
     background: #e8f0fe9e;
+}
+
+.list-group-item,
+.currency-container {
+    background-color: #343a40;
 }

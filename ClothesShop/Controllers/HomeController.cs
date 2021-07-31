@@ -51,7 +51,7 @@ namespace ClothesShop.Controllers
         [HttpGet]
         public IActionResult Shop()
         {
-            List<Product> products = _context.Products.ToList();
+            List<Product> products = _context.Products.Include(p => p.Tags).ToList();
             ViewBag.Products = products;
 
             List<Category> categories = _context.Categories.Where(cat => !cat.IsDeleted).ToList();
