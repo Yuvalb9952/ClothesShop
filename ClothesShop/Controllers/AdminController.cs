@@ -460,5 +460,15 @@ namespace ClothesShop.Controllers
 
             return View();
         }
+
+        public IActionResult FacebookPost()
+        {
+            /*if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }*/
+
+            return View();
+        }
     }
 }

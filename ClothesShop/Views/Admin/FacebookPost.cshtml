@@ -1,0 +1,30 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    string Name = ViewBag.Name;
+}
+<div class="container view-container">
+    <div>
+        <h2>Post on Facebook</h2>
+        <h5>Share posts on your buisiness page</h5>
+        <form class="form-facebook-post" asp-controller="Facebook" asp-action="postOnFacebook" method="POST">
+            <div class="form-label-group">
+                <input type="text" name="message" id="message" class="form-control" placeholder="your post content here" required autofocus>
+                <label for="postMessage">Post content</label>
+            </div>
+
+            <div class="form-label-group">
+                <input type="url" name="link" id="link" class="form-control" placeholder="attach a link here">
+                <label for="link">Link</label>
+            </div>
+            <div class="form-label-group">
+                <input type="image" name="image" id="image" class="form-control" placeholder="attach a photo here">
+                <label for="image">Photo</label>
+            </div>
+            <button class="btn btn-lg btn-signin btn-block text-uppercase" type="submit">
+                POST
+            </button>
+            <hr class="my-4">
+        </form>
+    </div>
+</div>
