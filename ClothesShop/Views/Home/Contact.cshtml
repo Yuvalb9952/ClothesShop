@@ -2,39 +2,40 @@
     List<Admin> admins = ViewBag.Admins;
     List<Branch> branches = ViewBag.Branches;
 }
-<div class="view-container container">
-    <section class="container">
-        <div class="row">
-            <div class="col">
-                <section class="container">
-                    <div class="row">
-                        <div style="text-align :center;" class="col">
-                            <img style="height:40px;" src="~/images/shopping-cart.png" />
-                            <br>
-                            @foreach (Branch branch in branches)
-                            {
-                            <h6 style="padding-top: 1rem;">@branch.BranchName</h6>
-                            <p>@branch.AddressInfo</p>
-                            }
-                        </div>
-                        <div style="text-align :center;"  class="col">
-                            <img style="height:40px;" src="~/images/email-icon.png" />
-                            <br>
-                            @foreach (Admin admin in admins)
-                            {
-                                <span>@admin.Email</span>
-                                <br>
-                            }
-                        </div>
-                    </div>
-                    <div style="text-align :center; padding-top : 40px;">
-                        <h2>Please contact us! Let us know how we can help you</h2>
-                    </div>
-                </section>
+<div class="contact">
+    <div class="contact-half">
+        <section class="container contact-left">
+            <div class="row contact-left">
+                <div class="col contact-center">
+                    <img class="contact-image" src="~/images/location.png" />
+                    <br>
+                    @foreach (Branch branch in branches)
+                    {
+                    <h6>@branch.AddressInfo</h6>
+                    }
+                </div>
+                <div class="col contact-center">
+                    <img class="contact-image"  src="~/images/email-icon.png" />
+                    @foreach (Admin admin in admins)
+                    {
+                        <h6>@admin.Email</h6>
+                    }
+                </div>
             </div>
-            <div class="map-wrapper col">
-                <div id="myMap" style="position:relative;width:100%;height:500px;"></div>
+            <div class="row contact-right">
+                <div class="col contact-center">
+                    <img class="contact-image"  src="~/images/phone.png" />
+                    <br>
+                    <h6>03-9999999</h6>
+                </div>
+                <div class="col contact-center">
+                    <h6 class="contact-text">Get in touch!</h6>
+                    <h6>Let us know how we can help you</h6>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
+    <div class="contact-half">
+        <div id="myMap" class="map-style"></div>
+    </div>
 </div>
