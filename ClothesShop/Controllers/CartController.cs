@@ -24,7 +24,7 @@ namespace ClothesShop.Controllers
         // GET: /<controller>/
         public IActionResult Cart()
         {
-            var keys = HttpContext.Session.Keys.Where(key => key != "adminId" && key != "fullName");
+            var keys = HttpContext.Session.Keys.Where(key => key != "adminId" && key != "UserName");
             Dictionary<int, List<ProductMetaData>> productsMD = new Dictionary<int, List<ProductMetaData>>();
             List<Product> productsInBag = _context.Products.Where(x => keys.Contains(x.Id.ToString())).Include(product => product.Category).ToList();
             ViewBag.productsInBag = productsInBag;

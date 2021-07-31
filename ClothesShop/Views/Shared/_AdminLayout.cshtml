@@ -10,47 +10,63 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="~/css/font-awesome.css" />
+        <link rel="stylesheet" href="~/css/admin.css" />
         <link rel="stylesheet" href="~/css/site.css" />
 
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
+        <link rel="stylesheet" href="~/css/admin.css" />
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     </environment>
 </head>
-<body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container">
-            <a class="navbar-brand" href="#">Clothes Shop - Admin Panel</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav navbar-center">
-                    <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Orders">Orders</a>
-                    <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Customers">Customers</a>
-                    <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Categories">Categories</a>
-                    <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Branches">Branches</a>
-                    <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Statistics">Statistics</a>
-                    <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Products">Products</a>
-                    <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Admins">Admins</a>
-                </div>
-                <div class="float-right d-flex">
-                    <a class="nav-link" asp-area="" asp-controller="User" asp-action="Logout">Logout</a>
-                </div>
+<body class="bg-secondary">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="">
+                <img src="~/images/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+                ClothesShop
+            </a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li>
+                        <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Orders">Orders</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Customers">Customers</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Categories">Categories</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Branches">Branches</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Statistics">Statistics</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Products">Products</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Admins">Admins</a>
+                    </li>
+                </ul>
             </div>
-        </div>
-    </nav>
+            <li class="float-right d-flex">
+               <a class="nav-link btn-logout" asp-area="" asp-controller="User" asp-action="Logout">Logout</a>
+            </li>
+        </nav>
+    </header>
+    <div class="container-fluid">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
 
     <partial name="_CookieConsentPartial" />
 
     <div>
-        <div class="container view-container">
-
-            @RenderBody()
-
-        </div>
         <hr />
         <footer>
             <div class="row">
@@ -71,18 +87,14 @@
         <script src="~/lib/popper.js/umd/popper.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="~/js/script.js"></script>
-        <script src="~/js/bingMap.js"></script>
         <script src="~/js/facebookService.js"></script>
-        <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental&setMkt=he-IL&setLang=he&key=ApxKkcD7MByeyxSCRDPy27su9HDczhlYFmI96NQDgpTtdHXdNkLr2922DcqjyKad' async defer></script>
     </environment>
     <environment exclude="Development">
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/popper.js/umd/popper.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="~/js/script.js"></script>
-        <script src="~/js/bingMap.js"></script>
         <script src="~/js/facebookService.js"></script>
-        <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental&setMkt=he-IL&setLang=he&key=ApxKkcD7MByeyxSCRDPy27su9HDczhlYFmI96NQDgpTtdHXdNkLr2922DcqjyKad' async defer></script>
     </environment>
 
     @RenderSection("Scripts", required: false)
