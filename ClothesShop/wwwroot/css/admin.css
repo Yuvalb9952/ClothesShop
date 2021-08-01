@@ -5,3 +5,12 @@
 .btn-logout {
     color: rgba(255,255,255,.5);
 }
+
+.admin-main {
+    position: relative;
+}
+
+.admin-footer {
+    position: absolute;
+    bottom: 0;
+}

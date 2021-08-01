@@ -1,14 +1,16 @@
-﻿@{ List<Product> ProductsInBag = ViewBag.productsInBag;
-   Dictionary<int, List<ProductMetaData>> productsMD = ViewBag.productsMD;
-   List<Product> Recommendations = ViewBag.statistics; 
-   List<Size> ProductSizesList = ViewBag.productSizesList; 
+﻿@{ 
+    ViewData["Title"] = "Cart";
+    List<Product> ProductsInBag = ViewBag.productsInBag;
+    Dictionary<int, List<ProductMetaData>> productsMD = ViewBag.productsMD;
+    List<Product> Recommendations = ViewBag.statistics;
+    List<Size> ProductSizesList = ViewBag.productSizesList;
  }
 
-<div class="container view-container">
+<div class="view-container cart-container">
     <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
         <source src="https://media.giphy.com/media/WuRVwQ8VIO8FC7ZxZH/giphy.mp4" type="video/mp4">
     </video>
-    <div class="panel-body">
+    <div class="container panel-body">
         @if (ProductsInBag == null || ProductsInBag.Count == 0)
          {
             <h5>
@@ -57,7 +59,7 @@
              </a>
          }
     </div>
-    <div class="view-container">
+    <div class="container view-container">
         <h4>
             Here are some fun items we think you would like:
         </h4>
@@ -65,7 +67,7 @@
             @{ foreach (Product product in Recommendations)
                {
                     <div class="grid-tile">
-                        <div class="item recommendation-item">
+                        <div class="item">
                             <img class="item-img" src="@product.ImageSrc" asp-append-version="true" alt="@product.ImageSrc" />
                             <div class="pnl-wrapper">
                                 <div class="pnl-description">
@@ -81,12 +83,12 @@
                                         <option value="@Size.Medium">@Size.Medium</option>
                                         <option value="@Size.Large">@Size.Large</option>
                                     </select>
-                                    <div class="recommendation-form">
+                                    <div class="recommendation-form mt-3">
                                         <input id="qantity" class="light-border" type="number" name="quantity" value=1 min="1" max="100">
-                                        <button type="submit" class="icon-button add-to-cart-btn"><i class="pnl-icon fa fa-plus-circle fa-lg"></i></button>
+                                        <button type="submit" class="btn-dark icon-button add-to-cart-btn"><i class="pnl-icon fa fa-plus-circle"></i></button>
                                     </div>
                                 }
-                                <div>
+                                <div class="mt-3">
                                     @foreach (Tag tag in product.Tags)
                                     {
                                         <span class="product-tag mr-2"># @tag.Name</span>

@@ -1,5 +1,5 @@
 ﻿@using Microsoft.CodeAnalysis
-@{ ViewData["Title"] = "Shop"; }
+@{ ViewData["Title"] = "Checkout"; }
 <div class="container view-container">
     <div class="row">
         <aside class="col-md-4 order-md-2 mb-4">
@@ -13,24 +13,24 @@
                     <li class="list-group-item d-flex justify-content-between lh-condensed">
                         <img class="checkout-img" src="@orderItem.Product.ImageSrc" asp-append-version="true" alt="@orderItem.Product.ImageSrc" />
                         <div class="col-8 pl-1 pr-0">
-                            <h6 class="my-0">@orderItem.Product.Name</h6>
+                            <h6 class="my-0 white-text">@orderItem.Product.Name</h6>
                             <small class="text-muted">@orderItem.Size</small>
                             <br />
-                            <small class="text-muted">@orderItem.Product.Price@((char)ViewBag.CurrentCurrency) X @orderItem.Quantity</small>
+                            <small class="text-muted white-text">@orderItem.Product.Price@((char)ViewBag.CurrentCurrency) X @orderItem.Quantity</small>
                         </div>
                     </li>
                 }
                 <li class="list-group-item d-flex justify-content-between">
-                    <span>Total (@ViewBag.CurrentCurrency)</span>
+                    <span class="white-text">Total (@ViewBag.CurrentCurrency)</span>
                     <strong>
-                        <span class="value">@ViewBag.CartSum.ToString("N2")</span><span class="currency">@((char)ViewBag.CurrentCurrency)</span>
+                        <span class="value white-text">@ViewBag.CartSum.ToString("N2")</span><span class="currency white-text">@((char)ViewBag.CurrentCurrency)</span>
                     </strong>
                 </li>
             </ul>
 
-            <form class="card p-2">
+            <form class="card p-2 currency-container">
                 <div class="row">
-                    <label class="col-sm-5 col-form-label mr-3">Currency</label>
+                    <label class="col-sm-5 col-form-label mr-3 white-text">Currency</label>
                     <div class="col-sm-5">
                         <div class="btn-group" role="group" aria-label="Basic example">
                             <a asp-controller="Checkout" asp-action="Checkout" asp-route-choosenCurrency="ILS"
@@ -138,7 +138,7 @@
                     </div>
                 </div>
                 <hr class="mb-4">
-                <button id="checkout-submit" class="btn btn-primary btn-lg btn-block" type="submit">
+                <button id="checkout-submit" class="btn btn-dark btn-lg btn-block" type="submit">
                     Checkout
                 </button>
             </form>
