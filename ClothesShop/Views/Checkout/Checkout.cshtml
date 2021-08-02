@@ -107,7 +107,7 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="cc-name">Name on card</label>
-                        <input type="text" class="@(ViewBag.GetInputClass("CreditCardName"))" id="cc-name" name="CreditCardName" placeholder="" pattern="^[a-zA-Z ]+$" required>
+                        <input type="text" class="@(ViewBag.GetInputClass("CreditCardName"))" id="cc-name" name="CreditCardName" placeholder="" pattern="^[a-zA-Z ]+$" autocomplete="off" required>
                         <small class="text-muted">Enter full name as displayed on card</small>
                         <div class="invalid-feedback">
                             Name on card is required, and must contain only letters.
@@ -115,7 +115,7 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="cc-number">Credit card number</label>
-                        <input type="text" class="@(ViewBag.GetInputClass("CreditCardNumber"))" id="cc-number" name="CreditCardNumber" pattern="\d{16}" placeholder="" required>
+                        <input type="text" class="@(ViewBag.GetInputClass("CreditCardNumber"))" id="cc-number" name="CreditCardNumber" pattern="\d{16}" placeholder="" autocomplete="off" required>
                         <div class="invalid-feedback">
                             Credit card number is required.
                         </div>
@@ -124,14 +124,14 @@
                 <div class="row">
                     <div class="col-md-3 mb-3">
                         <label for="cc-expiration">Expiration</label>
-                        <input type="text" class="@(ViewBag.GetInputClass("CreditCardExpiration"))" id="cc-expiration" name="CreditCardExpiration" pattern="([0][1-9]|[1][0-2])/\d{2}" placeholder="12/21" required>
+                        <input type="text" class="@(ViewBag.GetInputClass("CreditCardExpiration"))" id="cc-expiration" name="CreditCardExpiration" pattern="([0][1-9]|[1][0-2])/\d{2}" placeholder="12/21" autocomplete="off" required>
                         <div class="invalid-feedback">
                             Valid expiration date is required.
                         </div>
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="cc-expiration">CVV</label>
-                        <input type="text" class="@(ViewBag.GetInputClass("CreditCardCVV"))" id="cc-cvv" placeholder="" name="CreditCardCVV" pattern="\d{3}" required>
+                        <input type="text" class="@(ViewBag.GetInputClass("CreditCardCVV"))" id="cc-cvv" placeholder="" name="CreditCardCVV" pattern="\d{3}" autocomplete="off" required>
                         <div class="invalid-feedback">
                             Security code is required.
                         </div>
