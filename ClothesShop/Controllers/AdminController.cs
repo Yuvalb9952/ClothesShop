@@ -133,7 +133,7 @@ namespace ClothesShop.Controllers
             productToEdit.Price = price;
             productToEdit.Gender = gender;
 
-            if (productToEdit.Tags?.Any() == true)
+            if (tags?.Any() == true)
             {
                 productToEdit.Tags.Clear();
                 foreach (Tag tag in _context.Tags.Where(t => tags.Contains(t.Id)))
