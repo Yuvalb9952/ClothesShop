@@ -111,5 +111,12 @@ namespace ClothesShop.Controllers
 
             return productsInBagCount;
         }
+
+        public IActionResult About()
+        {
+            ViewData["Message"] = "Clothes Shop";
+
+            return View();
+        }
     }
 }
