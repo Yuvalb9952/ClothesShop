@@ -42,11 +42,10 @@ i {
     border: 1px solid #0000001c;
 }
 
-.add-to-cart-btn {
+button.add-to-cart-btn {
     position: absolute;
-    right: 0;
-    bottom: 0;
-    border: none;
+    right: 10px;
+    bottom: 10px;
 }
 
 .fa-plus-circle {
@@ -55,9 +54,6 @@ i {
 }
 
 video {
-    position: absolute;
-    right: 0;
-    top: 1rem;
     height: 8rem;
 }
 

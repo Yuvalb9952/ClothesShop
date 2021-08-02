@@ -7,9 +7,6 @@
  }
 
 <div class="view-container cart-container">
-    <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
-        <source src="https://media.giphy.com/media/WuRVwQ8VIO8FC7ZxZH/giphy.mp4" type="video/mp4">
-    </video>
     <div class="container panel-body">
         @if (ProductsInBag == null || ProductsInBag.Count == 0)
          {
@@ -19,39 +16,44 @@
          }
          else
          {
-             <table class="table">
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Qty</th>
-                        <th>Size</th>
-                        <th>Price</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{ foreach (Product product in ProductsInBag)
-                        {
-                            foreach (ProductMetaData metaData in productsMD[product.Id])
+            <div class="d-flex">
+                 <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Qty</th>
+                            <th>Size</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ foreach (Product product in ProductsInBag)
                             {
-                                <tr>
-                                    <td><strong>@product.Name</strong></td>
-                                    <td>@metaData.Quantity</td>
-                                    <td>@metaData.Size</td>
-                                    <td>@product.Price₪</td>
-                                    <td>
-                                        @(metaData.Quantity * product.Price)₪<a asp-controller="Cart" asp-action="DeleteProduct" asp-route-id=@product.Id asp-route-size="@metaData.Size"><i class="cart-trash fa fa-trash-o"></i></a>
-                                    </td>
-                                </tr>
+                                foreach (ProductMetaData metaData in productsMD[product.Id])
+                                {
+                                    <tr>
+                                        <td><strong>@product.Name</strong></td>
+                                        <td>@metaData.Quantity</td>
+                                        <td>@metaData.Size</td>
+                                        <td>@product.Price₪</td>
+                                        <td>
+                                            @(metaData.Quantity * product.Price)₪<a asp-controller="Cart" asp-action="DeleteProduct" asp-route-id=@product.Id asp-route-size="@metaData.Size"><i class="cart-trash fa fa-trash-o"></i></a>
+                                        </td>
+                                    </tr>
+                                }
                             }
                         }
-                    }
-                    <tr>
-                        <td colspan="4" class="text-right">Total</td>
-                        <td>@(ProductsInBag.Sum(p => p.Price * productsMD[p.Id].Sum(md => md.Quantity)))₪</td>
-                    </tr>
-                </tbody>
-             </table>
+                        <tr>
+                            <td colspan="4" class="text-right">Total</td>
+                            <td>@(ProductsInBag.Sum(p => p.Price * productsMD[p.Id].Sum(md => md.Quantity)))₪</td>
+                        </tr>
+                    </tbody>
+                 </table>
+                <video class="ml-4" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+                    <source src="https://media.giphy.com/media/WuRVwQ8VIO8FC7ZxZH/giphy.mp4" type="video/mp4">
+                </video>
+            </div>
              <a asp-controller="Home" asp-action="Shop" id="cart-continue-btn" class="btn btn-primary" data-dismiss="modal">Continue Shopping</a>
              <a asp-controller="Checkout" asp-action="Checkout" id="cart-checkout-btn" class="pull-right btn btn-success">
                  Checkout
@@ -85,7 +87,7 @@
                                     </select>
                                     <div class="recommendation-form mt-3">
                                         <input id="qantity" class="light-border quantity-input" type="number" name="quantity" value=1 min="1" max="100">
-                                        <button type="submit" class="btn-dark icon-button add-to-cart-btn"><i class="pnl-icon fa fa-plus-circle"></i></button>
+                                        <button type="submit" class="btn btn-dark add-to-cart-btn"><i class="fa fa-plus-circle"></i></button>
                                     </div>
                                 }
                                 <div class="mt-3">
