@@ -15,12 +15,10 @@ namespace ClothesShop.Controllers
     public class AdminController : Controller
     {
         private readonly ClothesShopContext _context;
-        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public AdminController(ClothesShopContext context, IWebHostEnvironment iwebHostEnvironment) 
+        public AdminController(ClothesShopContext context) 
         {
             _context = context;
-            webHostEnvironment = iwebHostEnvironment;
         }
 
         public class CustomerViewModel

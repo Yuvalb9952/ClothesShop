@@ -51,7 +51,7 @@ namespace ClothesShop.Controllers
         [HttpGet]
         public IActionResult Shop()
         {
-            List<Product> products = _context.Products.Include(p => p.Tags).ToList();
+            List<Product> products = _context.Products.Include(p => p.Tags).Include(p => p.Category).ToList();
             ViewBag.Products = products;
 
             List<Category> categories = _context.Categories.Where(cat => !cat.IsDeleted).ToList();
@@ -81,11 +81,11 @@ namespace ClothesShop.Controllers
 
             if (searchText != null)
             {
-                products = _context.Products.Include(p => p.Tags).Where((p) => p.Name.Contains(searchText)).ToList();
+                products = _context.Products.Include(p => p.Tags).Include(p => p.Category).Where((p) => p.Name.Contains(searchText)).ToList();
             }
             else
             {
-                products = _context.Products.Include(p => p.Tags).ToList();
+                products = _context.Products.Include(p => p.Tags).Include(p => p.Category).ToList();
             }
 
             if (category != 0)
