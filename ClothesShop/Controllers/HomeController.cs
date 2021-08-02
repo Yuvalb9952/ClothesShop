@@ -122,5 +122,10 @@ namespace ClothesShop.Controllers
 
             return productsInBagCount;
         }
+
+        public IActionResult NotFound()
+        {
+            return View();
+        }
     }
 }

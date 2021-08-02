@@ -133,14 +133,14 @@ namespace ClothesShop.Controllers
             productToEdit.Price = price;
             productToEdit.Gender = gender;
 
-            if (productToEdit.Tags?.Any() == true)
+            if (tags?.Any() == true)
             {
                 productToEdit.Tags.Clear();
                 foreach (Tag tag in _context.Tags.Where(t => tags.Contains(t.Id)))
                 {
                     productToEdit.Tags.Add(tag);
                 }
-            }            
+            }
 
             if (img != null)
             {
@@ -433,7 +433,7 @@ namespace ClothesShop.Controllers
                 return Redirect("/Admin/Tags");
             }
 
-            Category newTag = new Category() { Name = name };
+            Tag newTag = new Tag() { Name = name };
 
             _context.Add(newTag);
             _context.SaveChanges();
