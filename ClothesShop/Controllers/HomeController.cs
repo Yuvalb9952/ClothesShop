@@ -51,11 +51,15 @@ namespace ClothesShop.Controllers
         [HttpGet]
         public IActionResult Shop()
         {
-            List<Product> products = _context.Products.Include(p => p.Tags).ToList();
+            List<Product> products = _context.Products.Include(p => p.Tags).Include(p => p.Category).ToList();
             ViewBag.Products = products;
 
             List<Category> categories = _context.Categories.Where(cat => !cat.IsDeleted).ToList();
+
+            List<Tag> tags = _context.Tags.Where(cat => !cat.IsDeleted).ToList();
+
             ViewBag.Categories = categories;
+            ViewBag.tags = tags;
 
             ViewBag.productsInBagCount = getProductsInBagCount();
 
@@ -65,25 +69,32 @@ namespace ClothesShop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Shop(string searchText, int category, int minPrice, int maxPrice)
+        public IActionResult Shop(string searchText, int category, int tag, int minPrice, int maxPrice)
         {
             List<Category> categories = _context.Categories.Where(cat => !cat.IsDeleted).ToList();
             ViewBag.Categories = categories;
+
+            List<Tag> tags = _context.Tags.Where(cat => !cat.IsDeleted).ToList();
+            ViewBag.tags = tags;
 
             List<Product> products;
 
             if (searchText != null)
             {
-                products = _context.Products.Where((p) => p.Name.Contains(searchText)).Include(product => product.Category).ToList();
+                products = _context.Products.Include(p => p.Tags).Include(p => p.Category).Where((p) => p.Name.Contains(searchText)).ToList();
             }
             else
             {
-                products = _context.Products.Include(product => product.Category).ToList();
+                products = _context.Products.Include(p => p.Tags).Include(p => p.Category).ToList();
             }
 
             if (category != 0)
             {
                 products = products.Where((p) => p.Category.Id == category).ToList();
+            }
+            if (tag != 0 )
+            {
+                products = products.Where((p) => p.Tags.Any(a => tag == a.Id)).ToList();
             }
 
             if (maxPrice <= 0)
@@ -102,7 +113,7 @@ namespace ClothesShop.Controllers
 
         private dynamic getProductsInBagCount()
         {
-            var keys = HttpContext.Session.Keys.Where(key => key != "adminId" && key != "fullName");
+            var keys = HttpContext.Session.Keys.Where(key => key != "adminId" && key != "UserName");
             int productsInBagCount = 0;
             foreach (var key in keys)
             {
@@ -114,8 +125,11 @@ namespace ClothesShop.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Clothes Shop";
+            return View();
+        }
 
+        public IActionResult NotFound()
+        {
             return View();
         }
     }

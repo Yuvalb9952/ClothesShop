@@ -15,12 +15,10 @@ namespace ClothesShop.Controllers
     public class AdminController : Controller
     {
         private readonly ClothesShopContext _context;
-        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public AdminController(ClothesShopContext context, IWebHostEnvironment iwebHostEnvironment) 
+        public AdminController(ClothesShopContext context) 
         {
             _context = context;
-            webHostEnvironment = iwebHostEnvironment;
         }
 
         public class CustomerViewModel
@@ -90,7 +88,14 @@ namespace ClothesShop.Controllers
                 return View("Views/Users/NotFound.cshtml");
             }
 
-            string pathToSave = await SaveImageFile(img, name);
+            string pathToSave = "";
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                img.CopyTo(ms);
+                var imageToSave = Convert.ToBase64String(ms.ToArray());
+                pathToSave = "data:image/png;base64," + imageToSave;
+            }
 
             Product newProduct = new Product()
             {
@@ -128,7 +133,7 @@ namespace ClothesShop.Controllers
             productToEdit.Price = price;
             productToEdit.Gender = gender;
 
-            if (productToEdit.Tags?.Any() == true)
+            if (tags?.Any() == true)
             {
                 productToEdit.Tags.Clear();
                 foreach (Tag tag in _context.Tags.Where(t => tags.Contains(t.Id)))
@@ -139,7 +144,12 @@ namespace ClothesShop.Controllers
 
             if (img != null)
             {
-                productToEdit.ImageSrc = await SaveImageFile(img, name);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    img.CopyTo(ms);
+                    var imageToSave = Convert.ToBase64String(ms.ToArray(), 0, ms.ToArray().Length);
+                    productToEdit.ImageSrc = "data:image/png;base64," + imageToSave;
+                }
             }
 
             _context.Update(productToEdit);
@@ -612,30 +622,6 @@ namespace ClothesShop.Controllers
         }
 
         #endregion
-
-        private async Task<string> SaveImageFile(IFormFile img, string name)
-        {
-            // Create a File Info 
-            FileInfo fi = new FileInfo(img.FileName);
-
-            // This code creates a unique file name to prevent duplications 
-            // stored at the file location
-            var newFilename = name + "_" + String.Format("{0:d}",
-                              (DateTime.Now.Ticks / 10) % 100000000) + fi.Extension;
-            var webPath = webHostEnvironment.WebRootPath;
-            var path = Path.Combine("", webPath + @"\ImageFiles\" + newFilename);
-
-            // IMPORTANT: The pathToSave variable will be save on the column in the database
-            var pathToSave = @"/ImageFiles/" + newFilename;
-
-            // This stream the physical file to the allocate wwwroot/ImageFiles folder
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                await img.CopyToAsync(stream);
-            }
-
-            return pathToSave;
-        }
 
         public IActionResult Statistics()
         {
