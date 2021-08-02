@@ -573,6 +573,28 @@ namespace ClothesShop.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult Branches(string branchName)
+        {
+            if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }
+            List<Branch> branches;
+
+            if (branchName != null)
+            {
+                branches = _context.Branches.Where((branch) => branch.BranchName == branchName).ToList();
+            }
+            else
+            {
+                branches = _context.Branches.ToList();
+            }
+            ViewBag.Branches = branches;
+
+            return View();
+        }
+
         public IActionResult RemoveBranch(int id)
         {
             if (HttpContext.Session.GetInt32("adminId") == null)
