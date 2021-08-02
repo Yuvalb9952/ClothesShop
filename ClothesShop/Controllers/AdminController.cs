@@ -50,7 +50,7 @@ namespace ClothesShop.Controllers
                 return View("Views/Users/NotFound.cshtml");
             }
 
-            List<Product> products = _context.Products.ToList();
+            List<Product> products = _context.Products.Include(p => p.Tags).ToList();
             List<Category> categories = _context.Categories.Where(cat => !cat.IsDeleted).ToList();
             List<Tag> tags = _context.Tags.Where(tag => !tag.IsDeleted).ToList();
 
@@ -110,22 +110,32 @@ namespace ClothesShop.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditProduct(int id,
-                                                     string name,
-                                                     int category,
-                                                     int price,
-                                                     IFormFile img,
-                                                     Gender gender,
-                                                     List<int> tags)
+                                                      string name,
+                                                      int category,
+                                                      int price,
+                                                      IFormFile img,
+                                                      Gender gender,
+                                                      List<int> tags)
         {
             if (HttpContext.Session.GetInt32("adminId") == null)
             {
                 return View("Views/Users/NotFound.cshtml");
             }
 
-            Product productToEdit = _context.Products.Single(p => p.Id == id);
+            Product productToEdit = _context.Products.Include(p => p.Tags).Single(p => p.Id == id);
             productToEdit.Name = name;
             productToEdit.Category = _context.Categories.Single(c => c.Id == category);
             productToEdit.Price = price;
+            productToEdit.Gender = gender;
+
+            if (productToEdit.Tags?.Any() == true)
+            {
+                productToEdit.Tags.Clear();
+                foreach (Tag tag in _context.Tags.Where(t => tags.Contains(t.Id)))
+                {
+                    productToEdit.Tags.Add(tag);
+                }
+            }
 
             if (img != null)
             {
@@ -204,6 +214,93 @@ namespace ClothesShop.Controllers
             return View();
         }
 
+        #endregion
+
+        #region Tags
+
+        public IActionResult Tags()
+        {
+            if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }
+            List<Tag> tags = _context.Tags.Where(cat => !cat.IsDeleted).ToList();
+            ViewBag.Tags = tags;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Tags(string tagName)
+        {
+            if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }
+            List<Tag> tags;
+
+            if (tagName != null)
+            {
+                tags = _context.Tags.Where((tag) => tag.Name == tagName).ToList();
+            }
+            else
+            {
+                tags = _context.Tags.ToList();
+            }
+            ViewBag.Tags = tags;
+
+            return View();
+        }
+
+        public IActionResult RemoveTag(int id)
+        {
+            if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }
+
+            if (_context.Tags.Include(tag => tag.Products).FirstOrDefault(tag => tag.Id == id)?.Products?.Any() == false)
+            {
+                _context.Tags.Single(p => p.Id == id).IsDeleted = true;
+                _context.SaveChanges();
+            }
+            else
+                TempData["TagRemovalFailed"] = true;
+
+            return Redirect("/Admin/Tags");
+        }
+
+        public IActionResult AddTag(string name)
+        {
+            if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }
+
+            if (name == null)
+            {
+                return Redirect("/Admin/Tags");
+            }
+
+            Category newTag = new Category() { Name = name };
+
+            _context.Add(newTag);
+            _context.SaveChanges();
+            return Redirect("/Admin/Tags");
+        }
+
+        public IActionResult EditTag(int id, string name)
+        {
+            if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }
+            Tag tagToEdit = _context.Tags.Single(c => c.Id == id);
+            tagToEdit.Name = name;
+
+            _context.Update(tagToEdit);
+            _context.SaveChanges();
+            return Redirect("/Admin/Tags");
+        }
         #endregion
 
         #region Admins
