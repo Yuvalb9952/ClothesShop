@@ -52,9 +52,11 @@ namespace ClothesShop.Controllers
 
             List<Product> products = _context.Products.ToList();
             List<Category> categories = _context.Categories.Where(cat => !cat.IsDeleted).ToList();
+            List<Tag> tags = _context.Tags.Where(tag => !tag.IsDeleted).ToList();
 
             ViewBag.Products = products;
             ViewBag.Categories = categories;
+            ViewBag.Tags = tags;
             return View();
         }
 
@@ -81,7 +83,7 @@ namespace ClothesShop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddProduct(string name, int category, int price, IFormFile img)
+        public async Task<IActionResult> AddProduct(string name, int category, int price, IFormFile img, Gender gender, List<int> tags)
         {
             if (HttpContext.Session.GetInt32("adminId") == null)
             {
@@ -95,7 +97,9 @@ namespace ClothesShop.Controllers
                 Name = name,
                 Category = _context.Categories.Single(c => c.Id == category),
                 Price = price,
-                ImageSrc = pathToSave
+                ImageSrc = pathToSave,
+                Gender = gender,
+                Tags = _context.Tags.Where(t => tags.Contains(t.Id)).ToList()
             };
 
             _context.Add(newProduct);
@@ -109,7 +113,9 @@ namespace ClothesShop.Controllers
                                                      string name,
                                                      int category,
                                                      int price,
-                                                     IFormFile img)
+                                                     IFormFile img,
+                                                     Gender gender,
+                                                     List<int> tags)
         {
             if (HttpContext.Session.GetInt32("adminId") == null)
             {
