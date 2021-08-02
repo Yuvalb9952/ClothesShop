@@ -54,7 +54,6 @@ namespace ClothesShop
                 app.UseHsts();
             }
 
-            context.Database.EnsureDeleted();
             if (context.Database.EnsureCreated())
             {
                 context.InitializeProducts();
