@@ -2,18 +2,16 @@
     ViewData["Title"] = "Shop";
     List<Product> products = ViewBag.Products;
     List<Category> categories = ViewBag.categories;
+    List<Tag> tags = ViewBag.tags;
     int productsInBagCount = ViewBag.productsInBagCount; 
 }
 <div class="container view-container">
     <div class="layout">
         <section class="inner">
-
-            Items in your cart: @productsInBagCount.ToString()
-
             <div id="search" class="horizontal">
                 <form id="searchForm" class="horizontal" asp-action="Shop" asp-controller="Home" method="POST">
-                    <input id="searchText" name="searchText" type="search" class="form-control ds-input" />
-                    <select name="category">
+                    <input id="searchText" name="searchText" type="search" class="form-control ds-input" placeholder="Enter product name"/>
+                    <select name="category" class="form-control">
                         <option value=0>Choose a category</option>
                         @{ 
                             foreach (Category category in categories)
@@ -22,10 +20,20 @@
                             } 
                          }
                     </select>
-                    <input type="number" name="minPrice" class="price-range" placeholder="Min price" />
-                    -
-                    <input type="number" name="maxPrice" class="price-range" placeholder="Max price" />
-                    <input type="submit" id="search-button" class="btn btn-primary btn-sm" value="Search">
+                    <select name="tag" class="form-control">
+                        <option value=0>Choose a tag</option>
+                        @{ 
+                            foreach (Tag tag in tags)
+                            {
+                                <option value=@tag.Id>@tag.Name</option> 
+                            } 
+                         }
+                    </select>
+                    <input min="0" type="number" name="minPrice" class="form-control price-range" placeholder="Min price"/>
+                    <input min="0" type="number" name="maxPrice" class="form-control price-range" placeholder="Max price"/>
+                    <button type="submit" id="search-button" class="btn btn-primary btn-sm">
+                        <i class="bi bi-search"></i>
+                    </button>
                 </form>
             </div>
             @{ 
@@ -80,7 +88,7 @@
 </div>
 
 <script>
-    $('.price-range').keyup(function () {
+    $('.price-range').change(function () {
         var maxValue = $('input[name^="maxPrice"]').val();
         var minValue = $('input[name^="minPrice"]').val();
 
