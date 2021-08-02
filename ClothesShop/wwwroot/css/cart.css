@@ -66,3 +66,9 @@ span.product-tag {
     font-style: italic;
     font-size: smaller;
 }
+
+.select-size,
+.quantity-input {
+    border-radius: 2rem;
+    padding: 0.3rem 0 0.3rem 0;
+}

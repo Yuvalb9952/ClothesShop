@@ -78,13 +78,13 @@
                                 @using (Html.BeginForm("AddRecommendationToCart", "Cart", FormMethod.Post))
                                 {
                                     <input type="hidden" name="Id" value="@product.Id" id="id" />
-                                    <select class="light-border mr-2 mt-3" name="size">
+                                    <select class="light-border mr-2 mt-3 select-size" name="size">
                                         <option value="@Size.Small" selected>@Size.Small</option>
                                         <option value="@Size.Medium">@Size.Medium</option>
                                         <option value="@Size.Large">@Size.Large</option>
                                     </select>
                                     <div class="recommendation-form mt-3">
-                                        <input id="qantity" class="light-border" type="number" name="quantity" value=1 min="1" max="100">
+                                        <input id="qantity" class="light-border quantity-input" type="number" name="quantity" value=1 min="1" max="100">
                                         <button type="submit" class="btn-dark icon-button add-to-cart-btn"><i class="pnl-icon fa fa-plus-circle"></i></button>
                                     </div>
                                 }
