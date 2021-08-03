@@ -3,6 +3,7 @@
     List<Product> products = ViewBag.Products;
     List<Category> categories = ViewBag.categories;
     List<Tag> tags = ViewBag.tags;
+    List<Gender> gender = ViewBag.gender;
     int productsInBagCount = ViewBag.productsInBagCount; 
 }
 <div class="container view-container">
@@ -12,7 +13,7 @@
                 <form id="searchForm" class="horizontal" asp-action="Shop" asp-controller="Home" method="POST">
                     <input id="searchText" name="searchText" type="search" class="form-control ds-input" placeholder="Enter product name"/>
                     <select name="category" class="form-control">
-                        <option value=0>Choose a category</option>
+                        <option value=0>Choose category</option>
                         @{ 
                             foreach (Category category in categories)
                             {
@@ -21,13 +22,18 @@
                          }
                     </select>
                     <select name="tag" class="form-control">
-                        <option value=0>Choose a tag</option>
+                        <option value=0>Choose tag</option>
                         @{ 
                             foreach (Tag tag in tags)
                             {
                                 <option value=@tag.Id>@tag.Name</option> 
                             } 
                          }
+                    </select>
+                    <select class="form-control" name="gender">
+                        <option value=0>choose gender</option>
+                        <option value=1>@Gender.Male</option>
+                        <option value=2>@Gender.Female</option>
                     </select>
                     <input min="0" type="number" name="minPrice" class="price-range" placeholder="Min price"/>
                     <input min="0" type="number" name="maxPrice" class="price-range" placeholder="Max price"/>
