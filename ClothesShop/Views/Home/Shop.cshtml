@@ -29,8 +29,8 @@
                             } 
                          }
                     </select>
-                    <input min="0" type="number" name="minPrice" class="form-control price-range" placeholder="Min price"/>
-                    <input min="0" type="number" name="maxPrice" class="form-control price-range" placeholder="Max price"/>
+                    <input min="0" type="number" name="minPrice" class="price-range" placeholder="Min price"/>
+                    <input min="0" type="number" name="maxPrice" class="price-range" placeholder="Max price"/>
                     <button type="submit" id="search-button" class="btn btn-primary btn-sm">
                         <i class="bi bi-search"></i>
                     </button>
@@ -88,7 +88,7 @@
 </div>
 
 <script>
-    $('.price-range').change(function () {
+    $('.price-range).change(function () {
         var maxValue = $('input[name^="maxPrice"]').val();
         var minValue = $('input[name^="minPrice"]').val();
 
