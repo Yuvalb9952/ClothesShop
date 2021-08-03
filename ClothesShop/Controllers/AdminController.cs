@@ -291,7 +291,7 @@ namespace ClothesShop.Controllers
                 return Redirect("/Admin/Tags");
             }
 
-            Category newTag = new Category() { Name = name };
+            Tag newTag = new Tag() { Name = name };
 
             _context.Add(newTag);
             _context.SaveChanges();
