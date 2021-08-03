@@ -5,6 +5,15 @@
 }
 
 <h2>Admins</h2>
+<div id="search" class="horizontal">
+    <form id="searchForm" class="form-row align-items-center" asp-action="Admins" asp-controller="Admin" method="POST">
+        <div class="col">
+		        <label>By name:</label>
+		        <input id="adminName" name="adminName" type="search" placeholder="type name to search.." class="form-control search-control ds-input" /> <br/>
+            </div>
+        <input type="submit" id="search-button" class="btn form-control search-control btn-primary btn-sm" value="Search">
+    </form>
+</div>
 
 @{ foreach (Admin admin in admins)
     {

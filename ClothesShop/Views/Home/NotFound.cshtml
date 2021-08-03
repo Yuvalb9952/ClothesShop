@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "404";
+}
+<div class="main">
+    <div class="not-found-page">
+        <h2 class="not-found-title white-text">404 Not Found</h2>
+        <div class="not-found-whoops white-text">
+            Whoops! Looks like you're lost... Let us help you find your way back!
+            <br />
+            <button type="button" class="btn btn-dark not-found-btn mt-4"> @Html.ActionLink("Back Home", "Index", "Home")</button>
+        </div>
+    </div>
+</div>
