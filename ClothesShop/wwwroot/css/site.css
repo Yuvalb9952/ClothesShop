@@ -293,3 +293,8 @@ About
 .white-text {
     color: white !important;
 }
+
+footer {
+    position: sticky;
+    bottom: 0;
+}

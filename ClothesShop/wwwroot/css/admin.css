@@ -6,11 +6,12 @@
     color: rgba(255,255,255,.5);
 }
 
-.admin-main {
-    position: relative;
+header {
+    height: 70px;
 }
 
-.admin-footer {
-    position: absolute;
-    bottom: 0;
+.admin-main {
+    /* screen size minus header and footer */
+    height: calc(100% - 70px - 68px); 
+    overflow: auto;
 }
