@@ -44,7 +44,7 @@
                 <div class="float-right d-flex">
                     <a class="btn btn-sm btn-dark" asp-area="" asp-controller="Cart" asp-action="Cart">
                         <i class="bi bi-cart3" style="font-size:24px"></i>
-                        <span class='badge badge-warning' id='lblCartCount'> 5 </span>
+                        <span class='badge badge-warning' id='lblCartCount'> @ViewBag.productsInBagCount</span>
                     </a>
                 </div>
             </div>

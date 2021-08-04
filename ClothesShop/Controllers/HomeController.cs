@@ -7,6 +7,7 @@ using System.Linq;
 using ClothesShop.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace ClothesShop.Controllers
 {
@@ -22,6 +23,8 @@ namespace ClothesShop.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.productsInBagCount = getProductsInBagCount();
+
             return View();
         }
 
@@ -29,6 +32,9 @@ namespace ClothesShop.Controllers
         {
             ViewBag.Admins = _context.Admins.ToList();
             ViewBag.Branches = _context.Branches.ToList();
+            ViewBag.productsInBagCount = getProductsInBagCount();
+
+
             return View();
         }
 
@@ -109,19 +115,21 @@ namespace ClothesShop.Controllers
             products = products.Where((p) => p.Price >= minPrice && p.Price <= maxPrice).ToList();
 
             ViewBag.Products = products;
-
             ViewBag.productsInBagCount = getProductsInBagCount();
 
             return View();
         }
-
         private dynamic getProductsInBagCount()
         {
             var keys = HttpContext.Session.Keys.Where(key => key != "adminId" && key != "UserName");
             int productsInBagCount = 0;
             foreach (var key in keys)
             {
-                productsInBagCount += int.Parse(HttpContext.Session.GetString(key));
+                var productMD = JsonConvert.DeserializeObject<List<ProductMetaData>>(HttpContext.Session.GetString(key));
+                foreach (var product in productMD)
+                {
+                    productsInBagCount += product.Quantity;
+                }
             }
 
             return productsInBagCount;
@@ -129,6 +137,8 @@ namespace ClothesShop.Controllers
 
         public IActionResult About()
         {
+            ViewBag.productsInBagCount = getProductsInBagCount();
+
             return View();
         }
 
