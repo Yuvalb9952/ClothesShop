@@ -149,7 +149,7 @@ namespace ClothesShop.Data
                 Price = 50,
                 Gender = Gender.Female,
                 ImageSrc = "https://s7d2.scene7.com/is/image/aeo/0352_3818_900_l1?$pdp-md-opt$&fmt=webp",
-                Tags = new List<Tag>() { party, summer, colorful }
+                Tags = new List<Tag>() { party, colorful }
             };
 
             var eagleTshirt = new Product
