@@ -23,7 +23,7 @@ namespace ClothesShop.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.productsInBagCount = getProductsInBagCount();
+            ViewBag.CartSize = getAmountOfProductsInCart();
 
             return View();
         }
@@ -32,7 +32,7 @@ namespace ClothesShop.Controllers
         {
             ViewBag.Admins = _context.Admins.ToList();
             ViewBag.Branches = _context.Branches.ToList();
-            ViewBag.productsInBagCount = getProductsInBagCount();
+            ViewBag.CartSize = getAmountOfProductsInCart();
 
 
             return View();
@@ -66,7 +66,7 @@ namespace ClothesShop.Controllers
             List<Tag> tags = _context.Tags.Where(cat => !cat.IsDeleted).ToList();
             ViewBag.tags = tags;
 
-            ViewBag.productsInBagCount = getProductsInBagCount();
+            ViewBag.CartSize = getAmountOfProductsInCart();
 
             return View();
         }
@@ -115,29 +115,29 @@ namespace ClothesShop.Controllers
             products = products.Where((p) => p.Price >= minPrice && p.Price <= maxPrice).ToList();
 
             ViewBag.Products = products;
-            ViewBag.productsInBagCount = getProductsInBagCount();
+            ViewBag.CartSize = getAmountOfProductsInCart();
 
             return View();
         }
-        private dynamic getProductsInBagCount()
+        private dynamic getAmountOfProductsInCart()
         {
             var keys = HttpContext.Session.Keys.Where(key => key != "adminId" && key != "UserName");
-            int productsInBagCount = 0;
+            int CartSize = 0;
             foreach (var key in keys)
             {
                 var productMD = JsonConvert.DeserializeObject<List<ProductMetaData>>(HttpContext.Session.GetString(key));
                 foreach (var product in productMD)
                 {
-                    productsInBagCount += product.Quantity;
+                    CartSize += product.Quantity;
                 }
             }
 
-            return productsInBagCount;
+            return CartSize;
         }
 
         public IActionResult About()
         {
-            ViewBag.productsInBagCount = getProductsInBagCount();
+            ViewBag.CartSize = getAmountOfProductsInCart();
 
             return View();
         }
