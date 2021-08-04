@@ -78,6 +78,7 @@ namespace ClothesShop.Controllers
                     product = orderDetails.product,
                     order = order
                 }).ToList()
+                .OrderBy(x => x.order.OrderDate)
                 .GroupBy(x => x.order.OrderDate.ToString("MM-yyyy"))
                 .Select(o => new GraphData
                 {
