@@ -55,10 +55,9 @@ namespace ClothesShop.Controllers
             ViewBag.Products = products;
 
             List<Category> categories = _context.Categories.Where(cat => !cat.IsDeleted).ToList();
+            ViewBag.Categories = categories;
 
             List<Tag> tags = _context.Tags.Where(cat => !cat.IsDeleted).ToList();
-
-            ViewBag.Categories = categories;
             ViewBag.tags = tags;
 
             ViewBag.productsInBagCount = getProductsInBagCount();
@@ -69,7 +68,7 @@ namespace ClothesShop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Shop(string searchText, int category, int tag, int minPrice, int maxPrice)
+        public IActionResult Shop(string searchText, int category, int tag, int minPrice, int maxPrice, int gender)
         {
             List<Category> categories = _context.Categories.Where(cat => !cat.IsDeleted).ToList();
             ViewBag.Categories = categories;
@@ -95,6 +94,11 @@ namespace ClothesShop.Controllers
             if (tag != 0 )
             {
                 products = products.Where((p) => p.Tags.Any(a => tag == a.Id)).ToList();
+            }
+
+            if (gender != 0)
+            {
+                products = products.Where((p) => p.Gender == (gender == 1 ? Gender.Male : Gender.Female)).ToList();
             }
 
             if (maxPrice <= 0)
