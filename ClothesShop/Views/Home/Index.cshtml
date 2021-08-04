@@ -11,7 +11,7 @@
                 <div class="carousel-caption text-left">
                     <h1>Welcome</h1>
                     <p>Welcome to our clothes shop. Start shopping now!</p>
-                    <p><a class="btn btn-lg btn-primary" href="#" role="button">Shop now</a></p>
+                    <p><a class="btn btn-lg btn-primary" role="button" asp-area="" asp-controller="Home" asp-action="Shop">Shop now</a></p>
                 </div>
             </div>
         </div>
@@ -21,7 +21,7 @@
                 <div class="carousel-caption">
                     <h1>New Arrivals</h1>
                     <p>Check out our new collection!</p>
-                    <p><a class="btn btn-lg btn-primary" href="#" role="button">Shop now</a></p>
+                    <p><a class="btn btn-lg btn-primary" role="button" asp-area="" asp-controller="Home" asp-action="Shop">Shop now</a></p>
                 </div>
             </div>
         </div>
@@ -30,7 +30,7 @@
             <div class="container">
                 <div class="carousel-caption text-right">
                     <h1>See what's hot and trending!</h1>
-                    <p><a class="btn btn-lg btn-primary" href="#" role="button">Shop now</a></p>
+                    <p><a class="btn btn-lg btn-primary" role="button" asp-area="" asp-controller="Home" asp-action="Shop">Shop now</a></p>
                 </div>
             </div>
         </div>
@@ -49,17 +49,17 @@
 
     <div class="row d-flex justify-content-center">
         <div class="col-lg-4">
-            <img class="rounded-circle" src="~/images/carousel/image4.jpeg" alt="Generic placeholder image" width="140" height="140">
-            <h2 class="text-light">Men</h2>
+            <img class="rounded-circle" src="~/images/home-cards/Men.png" alt="Generic placeholder image" width="140" height="140">
+            <h2 class="card-title text-light">Men</h2>
             <p>
             </p>
-            <p><a class="btn btn-lg btn-secondary" href="#" role="button">View all &raquo;</a></p>
+            <p><a class="btn btn-lg btn-secondary" asp-action="Shop" asp-controller="Home">View all &raquo;</a></p>
         </div>
         <div class="col-lg-4">
-            <img class="rounded-circle" src="~/images/carousel/image5.webp" alt="Generic placeholder image" width="140" height="140">
-            <h2 class="text-light">Women</h2>
+            <img class="rounded-circle" src="~/images/home-cards/Women.png" alt="Generic placeholder image" width="140" height="140">
+            <h2 class="card-title text-light">Women</h2>
           
-            <p><a class="btn btn-lg btn-secondary" href="#" role="button">View all &raquo;</a></p>
+            <p><a class="btn btn-lg btn-secondary" role="button" asp-area="" asp-controller="Home" asp-action="Shop">View all &raquo;</a></p>
         </div>
     </div>
 </div>
