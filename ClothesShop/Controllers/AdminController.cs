@@ -23,7 +23,9 @@ namespace ClothesShop.Controllers
 
         public class CustomerViewModel
         {
-            public string FullName { get; set; }
+            public int Id { get; set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
             public string Gender { get; set; }
             public string Email { get; set; }
             public int OrdersNumber { get; set; }
@@ -133,9 +135,9 @@ namespace ClothesShop.Controllers
             productToEdit.Price = price;
             productToEdit.Gender = gender;
 
+            productToEdit.Tags.Clear();
             if (tags?.Any() == true)
             {
-                productToEdit.Tags.Clear();
                 foreach (Tag tag in _context.Tags.Where(t => tags.Contains(t.Id)))
                 {
                     productToEdit.Tags.Add(tag);
@@ -175,7 +177,9 @@ namespace ClothesShop.Controllers
                     var customer = customers.Single(c => c.Email == g.Key);
                     return new CustomerViewModel
                     {
-                        FullName = $"{customer.FirstName} {customer.LastName}",
+                        Id = customer.Id,
+                        FirstName = customer.FirstName,
+                        LastName = customer.LastName,
                         Gender = customer.Gender,
                         Email = customer.Email,
                         OrdersNumber = g.Count()
@@ -201,7 +205,9 @@ namespace ClothesShop.Controllers
                     var customer = customers.Single(c => c.Email == g.Key);
                     return new CustomerViewModel
                     {
-                        FullName = $"{customer.FirstName} {customer.LastName}",
+                        Id = customer.Id,
+                        FirstName = customer.FirstName,
+                        LastName = customer.LastName,
                         Gender = customer.Gender,
                         Email = customer.Email,
                         OrdersNumber = g.Count()
@@ -212,7 +218,7 @@ namespace ClothesShop.Controllers
 
             if (customerName != null)
             {
-                wantedCustomerViews = customerView.Where((customer) => customer.FullName == customerName).ToList();
+                wantedCustomerViews = customerView.Where((customer) => $"{customer.FirstName} {customer.LastName}" == customerName).ToList();
             }
             else
             {
@@ -222,6 +228,41 @@ namespace ClothesShop.Controllers
             ViewBag.CustomersView = wantedCustomerViews;
 
             return View();
+        }
+
+        public IActionResult RemoveCustomer(int id)
+        {
+            if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }
+
+            if (_context.Orders.Include("Customer").First(o => o.Customer.Id == id) == null)
+            {
+                _context.Remove(_context.Customers.Single(b => b.Id == id));
+                _context.SaveChanges();
+            }
+            else
+            {
+                TempData["CustomerRemovalFailed"] = true;
+            }
+            return Redirect("/Admin/Customers");
+        }
+
+        public IActionResult EditCustomer(int id, string firstName, string lastName)
+        {
+            if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }
+            Customer customerToEdit = _context.Customers.Single(b => b.Id == id);
+
+            customerToEdit.FirstName = firstName;
+            customerToEdit.LastName = lastName;
+
+            _context.Update(customerToEdit);
+            _context.SaveChanges();
+            return Redirect("/Admin/Customers");
         }
 
         #endregion
@@ -437,6 +478,18 @@ namespace ClothesShop.Controllers
             {
                 return Redirect("/Admin/Orders");
             }
+        }
+
+        public IActionResult RemoveOrder(int id)
+        {
+            if (HttpContext.Session.GetInt32("adminId") == null)
+            {
+                return View("Views/Users/NotFound.cshtml");
+            }
+
+            _context.Remove(_context.Orders.Single(b => b.Id == id));
+            _context.SaveChanges();
+            return Redirect("/Admin/Orders");
         }
 
         [HttpPost]
