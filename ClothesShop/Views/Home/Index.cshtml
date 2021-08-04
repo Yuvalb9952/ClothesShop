@@ -53,13 +53,48 @@
             <h2 class="card-title text-light">Men</h2>
             <p>
             </p>
-            <p><a class="btn btn-lg btn-secondary" asp-action="Shop" asp-controller="Home">View all &raquo;</a></p>
+            <p><a class="btn btn-lg btn-secondary" id="men-shop">View all &raquo;</a></p>
         </div>
         <div class="col-lg-4">
             <img class="rounded-circle" src="~/images/home-cards/Women.png" alt="Generic placeholder image" width="140" height="140">
             <h2 class="card-title text-light">Women</h2>
           
-            <p><a class="btn btn-lg btn-secondary" role="button" asp-area="" asp-controller="Home" asp-action="Shop">View all &raquo;</a></p>
+            <p><a class="btn btn-lg btn-secondary" role="button" id="women-shop">View all &raquo;</a></p>
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $("#men-shop").on("click", function () {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Shop", "Home")',
+                data: { gender: 1 },
+                success: function (data) {
+                    $("body").html(data);
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            })
+        })
+    });
+
+    $(document).ready(function () {
+        $("#women-shop").on("click", function () {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Shop", "Home")',
+                data: { gender: 2 },
+                success: function (data) {
+                    $("body").html(data);
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            })
+        })
+    });
+
+</script>
