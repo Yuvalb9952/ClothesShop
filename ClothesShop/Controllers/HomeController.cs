@@ -7,6 +7,7 @@ using System.Linq;
 using ClothesShop.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace ClothesShop.Controllers
 {
@@ -22,6 +23,8 @@ namespace ClothesShop.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.CartSize = getAmountOfProductsInCart();
+
             return View();
         }
 
@@ -29,6 +32,9 @@ namespace ClothesShop.Controllers
         {
             ViewBag.Admins = _context.Admins.ToList();
             ViewBag.Branches = _context.Branches.ToList();
+            ViewBag.CartSize = getAmountOfProductsInCart();
+
+
             return View();
         }
 
@@ -60,14 +66,13 @@ namespace ClothesShop.Controllers
             List<Tag> tags = _context.Tags.Where(cat => !cat.IsDeleted).ToList();
             ViewBag.tags = tags;
 
-            ViewBag.productsInBagCount = getProductsInBagCount();
+            ViewBag.CartSize = getAmountOfProductsInCart();
 
             return View();
         }
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Shop(string searchText, int category, int tag, int minPrice, int maxPrice, int gender)
         {
             List<Category> categories = _context.Categories.Where(cat => !cat.IsDeleted).ToList();
@@ -109,26 +114,30 @@ namespace ClothesShop.Controllers
             products = products.Where((p) => p.Price >= minPrice && p.Price <= maxPrice).ToList();
 
             ViewBag.Products = products;
-
-            ViewBag.productsInBagCount = getProductsInBagCount();
+            ViewBag.CartSize = getAmountOfProductsInCart();
 
             return View();
         }
-
-        private dynamic getProductsInBagCount()
+        private dynamic getAmountOfProductsInCart()
         {
             var keys = HttpContext.Session.Keys.Where(key => key != "adminId" && key != "UserName");
-            int productsInBagCount = 0;
+            int CartSize = 0;
             foreach (var key in keys)
             {
-                productsInBagCount += int.Parse(HttpContext.Session.GetString(key));
+                var productMD = JsonConvert.DeserializeObject<List<ProductMetaData>>(HttpContext.Session.GetString(key));
+                foreach (var product in productMD)
+                {
+                    CartSize += product.Quantity;
+                }
             }
 
-            return productsInBagCount;
+            return CartSize;
         }
 
         public IActionResult About()
         {
+            ViewBag.CartSize = getAmountOfProductsInCart();
+
             return View();
         }
 

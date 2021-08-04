@@ -37,6 +37,7 @@ namespace ClothesShop.Controllers
             ViewBag.statistics = GetRecommendedProducts();
             ViewBag.productsMD = productsMD;
             ViewBag.productSizesList = new List<Size>() { Size.Small, Size.Medium, Size.Large };
+            ViewBag.CartSize = getAmountOfProductsInCart();
 
             return View();
         }
@@ -65,6 +66,22 @@ namespace ClothesShop.Controllers
                 HttpContext.Session.SetString(id.ToString(), JsonConvert.SerializeObject(mdList));
             }
             return RedirectToAction("Shop", "Home");
+        }
+
+        private dynamic getAmountOfProductsInCart()
+        {
+            var keys = HttpContext.Session.Keys.Where(key => key != "adminId" && key != "UserName");
+            int CartSize = 0;
+            foreach (var key in keys)
+            {
+                var productMD = JsonConvert.DeserializeObject<List<ProductMetaData>>(HttpContext.Session.GetString(key));
+                foreach (var product in productMD)
+                {
+                    CartSize += product.Quantity;
+                }
+            }
+
+            return CartSize;
         }
 
         [HttpPost]

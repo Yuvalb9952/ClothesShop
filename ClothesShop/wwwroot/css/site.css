@@ -7,6 +7,7 @@ for details on configuring this project to bundle and minify static web assets. 
 @import url("notfound.css");
 @import url("checkout.css");
 @import url("orders.css");
+@import url("home-page.css");
 
 .modal-body {
     max-height: 500px;
@@ -14,13 +15,8 @@ for details on configuring this project to bundle and minify static web assets. 
 }
 
 @font-face {
-    font-family: mySacramento;
-    src: url(../fonts/Sacramento-Regular.ttf);
-}
-
-@font-face {
-    font-family: myOswald;
-    src: url(../fonts/Oswald-ExtraLight.ttf);
+    font-family: raleway;
+    src: url(../fonts/Raleway-VariableFont_wght.ttf);
 }
 
 html {
@@ -37,6 +33,7 @@ body {
 .footer {
     width: 100%;
     line-height: 60px;
+    font-family: raleway;
 }
 
 #lblCartCount {
