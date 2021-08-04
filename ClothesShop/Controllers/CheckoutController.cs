@@ -73,9 +73,7 @@ namespace ClothesShop.Controllers
 
             if (order.CreditCardNumber == null || order.CreditCardNumber?.Length != 16) invalidFields.Add("CreditCardNumber");
 
-            if (order.CreditCardExpiration == null || !Regex.IsMatch(order.CreditCardExpiration, @"([0][1-9]|[1][0-2])/\d{2}") ||
-                DateTime.Now.Year % 2000 > int.Parse(order.CreditCardExpiration.Split('/')[1]) ||
-                (DateTime.Now.Year % 2000 == int.Parse(order.CreditCardExpiration.Split('/')[1]) && DateTime.Now.Month + 1 > int.Parse(order.CreditCardExpiration.Split('/')[0]))) invalidFields.Add("CreditCardExpiration");
+            if (order.CreditCardExpiration == null || !Regex.IsMatch(order.CreditCardExpiration, @"([0][1-9]|[1][0-2])/\d{2}")) invalidFields.Add("CreditCardExpiration");
 
             if (order.CreditCardCVV == null || order.CreditCardCVV?.Length != 3) invalidFields.Add("CreditCardCVV");
 
