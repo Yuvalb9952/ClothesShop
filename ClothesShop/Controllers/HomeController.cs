@@ -73,7 +73,6 @@ namespace ClothesShop.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Shop(string searchText, int category, int tag, int minPrice, int maxPrice, int gender)
         {
             List<Category> categories = _context.Categories.Where(cat => !cat.IsDeleted).ToList();
